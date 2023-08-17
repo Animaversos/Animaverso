@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
-import ResponsiveAppBar from "./components/navbar";
+import ResponsiveAppBar from "../../components/navbar";
 
-function App() {
+function LandingPage() {
   return (
     <Box sx={{ width: "100vw" }}>
       <ResponsiveAppBar />
@@ -9,4 +9,4 @@ function App() {
   );
 }
 
-export default App;
+export default LandingPage;
