@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import {Button} from "@mui/material";
 import PropTypes from "prop-types";
-
+import LogoSemNome from "../../assets/logo-sem-nome.png";
 
 
 export default function CustomNavbar({ handleDrawerToggle }) {
@@ -22,9 +22,11 @@ export default function CustomNavbar({ handleDrawerToggle }) {
               >
                   <TuneIcon />
               </IconButton>
+              <img src={LogoSemNome} alt="logo" width={50} height={50}/>
               <Typography variant="h6" sx={{flexGrow: 1}} component="div">
                   Animaverso
               </Typography>
+
               <Button color="inherit">Login</Button>
           </Toolbar>
       </AppBar>
