@@ -10,7 +10,6 @@ export default function FiltersContent() {
                 <Box sx={{display: 'flex', flexDirection: 'column' ,padding: 2, gap: 2}}>
                     <div>Localização</div>
                     <TextField variant={"outlined"} label={"Cidade"} />
-                    <TextField variant={"outlined"} label={"Bairro"}/>
                 </Box>
                 <Divider />
                 <Box sx={{display: 'flex', flexDirection: 'column' ,padding: 2, gap: 2}}>
