@@ -1,7 +1,9 @@
+import Box from "@mui/material/Box";
+import PetList from "../../components/petList/index.jsx";
 export default function Home() {
   return (
-    <div>
-      <h1>Home</h1>
-    </div>
+    <Box padding={2}>
+       <PetList/>
+    </Box>
   );
 }
