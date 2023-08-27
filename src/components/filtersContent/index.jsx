@@ -37,15 +37,13 @@ export default function FiltersContent() {
                         <FormControlLabel  control={<Checkbox />} label="Femea" />
                     </FormGroup>
                 </Box>
-                <Box sx={{display: 'grid', placeItens: 'center',padding: 2}}>
-                    <Button variant={"contained"}>Pesquisar</Button>
-                </Box>
             </Box>
 
             <Box>
                 <Divider/>
-                <Box sx={{display: 'grid', placeItens: 'center',padding: 2, backgroundColor: 'white'}}>
-                    <Button variant={"contained"}>Limpar</Button>
+                <Box sx={{display: 'flex', placeItens: 'center',padding: 2, gap: 1,backgroundColor: 'white'}}>
+                    <Button sx={{width: '110px'}} variant={"contained"}>Limpar</Button>
+                    <Button sx={{width: '110px'}}  variant={"contained"}>Pesquisar</Button>
                 </Box>
             </Box>
         </>
