@@ -5,6 +5,7 @@ import PetCard from "../petCard/index.jsx";
 
 const mockPetData = [
     {
+        id: 1,
         name: 'Bolinha',
         summary: 'Bolinha é um cachorro muito legal',
         sex: 'M',
@@ -13,6 +14,7 @@ const mockPetData = [
         image: 'https://i.pinimg.com/564x/2f/36/86/2f36863ace484e30b40aa9e58b562897.jpg'
     },
     {
+        id: 2,
         name: 'Bolinha',
         summary: 'Bolinha é um cachorro muito legal',
         sex: 'M',
@@ -21,13 +23,7 @@ const mockPetData = [
         image: 'https://i.pinimg.com/564x/2f/36/86/2f36863ace484e30b40aa9e58b562897.jpg'
     },
     {
-        name: 'Bolinha',
-        summary: 'Bolinha é um cachorro muito legal',
-        sex: 'M',
-        size: 'M',
-        weight: '10kg',
-        image: 'https://i.pinimg.com/564x/2f/36/86/2f36863ace484e30b40aa9e58b562897.jpg'
-    },{
+        id: 3,
         name: 'Bolinha',
         summary: 'Bolinha é um cachorro muito legal',
         sex: 'M',
@@ -36,6 +32,7 @@ const mockPetData = [
         image: 'https://i.pinimg.com/564x/2f/36/86/2f36863ace484e30b40aa9e58b562897.jpg'
     },
     {
+        id: 4,
         name: 'Bolinha',
         summary: 'Bolinha é um cachorro muito legal',
         sex: 'M',
@@ -43,7 +40,15 @@ const mockPetData = [
         weight: '10kg',
         image: 'https://i.pinimg.com/564x/2f/36/86/2f36863ace484e30b40aa9e58b562897.jpg'
     },
-    // Array com os dados dos pets (substitua isso pelos seus próprios dados)
+    {
+        id: 5,
+        name: 'Bolinha',
+        summary: 'Bolinha é um cachorro muito legal',
+        sex: 'M',
+        size: 'M',
+        weight: '10kg',
+        image: 'https://i.pinimg.com/564x/2f/36/86/2f36863ace484e30b40aa9e58b562897.jpg'
+    },
 ];
 
 const PetList = () => {

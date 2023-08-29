@@ -7,9 +7,10 @@ import Typography from '@mui/material/Typography';
 import PetIcon from '@mui/icons-material/Pets';
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
+import {Link} from "react-router-dom";
 
 const PetCard = ({ petData }) => {
-    const { name, summary, sex, size, weight, image } = petData;
+    const {id, name, summary, sex, size, weight, image } = petData;
 
     return (
         <Card style={{ width: '300px', margin: '10px' }}>
@@ -29,9 +30,12 @@ const PetCard = ({ petData }) => {
                 </div>
             </CardContent>
             <CardActions>
-                <Button fullWidth variant="contained" color="primary">
-                    Ver mais
-                </Button>
+                <Link to={`/pet/${id}`}>
+                    <Button fullWidth variant="contained" color="primary">
+                        Ver mais
+                    </Button>
+                </Link>
+
             </CardActions>
         </Card>
     );

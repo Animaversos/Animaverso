@@ -7,6 +7,7 @@ import DrawerWeb from "./drawerWeb.jsx";
 import DrawerMobile from "./drawerMobile.jsx";
 import ContainerMain from "../containerMain/index.jsx";
 import FiltersContent from "../filtersContent/index.jsx";
+import {matchPath, useLocation, useMatches} from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -18,12 +19,17 @@ CustomDrawer.propTypes = {
 export default function CustomDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const location = useLocation();
+  const rotasSemDrawer = ['/pet'];
+  const deveOcultarDrawer = rotasSemDrawer.some((rota) =>
+        location.pathname.startsWith(rota)
+    );
+  const drawerData = FiltersContent();
+
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  const drawerData = FiltersContent();
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -35,21 +41,25 @@ export default function CustomDrawer(props) {
         component="nav"
         aria-label="mailbox folders"
       >
-        <DrawerMobile customProps={
-          {
-              drawerWidth: drawerWidth,
-              drawer: drawerData,
-              handleDrawerToggle: handleDrawerToggle,
-              mobileOpen: mobileOpen,
-              container: container
-          }}
-        />
-        <DrawerWeb customProps={
-          {
-            drawerWidth: drawerWidth,
-            drawer: drawerData
-          }}
-        />
+          {!deveOcultarDrawer && (
+              <>
+                  <DrawerMobile
+                      customProps={{
+                          drawerWidth: drawerWidth,
+                          drawer: drawerData,
+                          handleDrawerToggle: handleDrawerToggle,
+                          mobileOpen: mobileOpen,
+                          container: container,
+                      }}
+                  />
+                  <DrawerWeb
+                      customProps={{
+                          drawerWidth: drawerWidth,
+                          drawer: drawerData,
+                      }}
+                  />
+              </>
+          )}
       </Box>
       <ContainerMain />
     </Box>
