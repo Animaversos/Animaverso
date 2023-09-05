@@ -14,7 +14,7 @@ const PetCard = ({ petData }) => {
 
     return (
         <Card style={{ width: '300px', margin: '10px' }}>
-            <img src={image} alt={name} style={{ width: '100%', height: 'auto' }} />
+            <img src={image} alt={name} style={{ width: '100%', height: '250px' }} />
             <CardContent>
                 <Typography variant="h6" component="div">
                     {name}
