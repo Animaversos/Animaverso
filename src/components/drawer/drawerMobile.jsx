@@ -21,7 +21,7 @@ export default function DrawerMobile({customProps}) {
                 '& .MuiDrawer-paper': { boxSizing: 'border-box', width: customProps.drawerWidth },
             }}
         >
-            <Toolbar />
+            <Toolbar sx={{marginBottom: 2}}/>
             {customProps.drawer}
         </Drawer>
     );

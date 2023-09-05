@@ -1,4 +1,3 @@
-
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import * as React from "react";
@@ -7,9 +6,9 @@ import DrawerWeb from "./drawerWeb.jsx";
 import DrawerMobile from "./drawerMobile.jsx";
 import ContainerMain from "../containerMain/index.jsx";
 import FiltersContent from "../filtersContent/index.jsx";
-import {matchPath, useLocation, useMatches} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
-const drawerWidth = 240;
+const drawerWidth = 282;
 
 CustomDrawer.propTypes = {
     window: PropTypes.func,
@@ -36,7 +35,7 @@ export default function CustomDrawer(props) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <CustomNavbar handleDrawerToggle={handleDrawerToggle} />
+      <CustomNavbar handleDrawerToggle={handleDrawerToggle}  isSemDrawer={deveOcultarDrawer} />
       <Box
         component="nav"
         aria-label="mailbox folders"
