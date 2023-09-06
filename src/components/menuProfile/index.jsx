@@ -6,15 +6,18 @@ import {Avatar, Divider, Paper} from "@mui/material";
 import {deepOrange} from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import {useNavigate} from "react-router-dom";
 
 export default function MenuProfile() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const navigate = useNavigate()
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleClose = () => {
+    const handleCloseAndNavigate = (path) => {
         setAnchorEl(null);
+        navigate(path, {replace: true})
     };
 
     return (
@@ -32,7 +35,7 @@ export default function MenuProfile() {
                 id="basic-menu"
                 anchorEl={anchorEl}
                 open={open}
-                onClose={handleClose}
+                onClose={() => setAnchorEl(null)}
                 MenuListProps={{
                     'aria-labelledby': 'basic-button',
                 }}
@@ -46,7 +49,7 @@ export default function MenuProfile() {
                     },
                 }}
             >
-                <MenuItem>
+                <MenuItem  onClick={() => handleCloseAndNavigate('settings/profile')}>
                     <Box>
                         <Typography sx={{fontWeight: 'bold'}}>
                             Ismael Elias
@@ -57,11 +60,11 @@ export default function MenuProfile() {
                     </Box>
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={handleClose}>Perfil</MenuItem>
-                <MenuItem onClick={handleClose}>Interesses</MenuItem>
-                <MenuItem onClick={handleClose}>Pets</MenuItem>
+                <MenuItem onClick={() => handleCloseAndNavigate('settings/profile')}>Perfil</MenuItem>
+                <MenuItem onClick={() => handleCloseAndNavigate('settings/interested')}>Interesses</MenuItem>
+                <MenuItem onClick={() => handleCloseAndNavigate('settings/pets')}>Pets</MenuItem>
                 <Divider />
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={() => handleCloseAndNavigate('settings/profile')}>
                     <Typography sx={{color: '#FF005C'}}>
                         Sair
                     </Typography>
