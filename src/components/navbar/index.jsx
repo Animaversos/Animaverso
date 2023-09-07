@@ -18,7 +18,7 @@ export default function CustomNavbar({ handleDrawerToggle, isSemDrawer }) {
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, width: { sm: `calc(100% - ${isSemDrawer ? '0px': '282px'})` },
           ml: { sm: `282px` }, }} color="inherit">
           <Toolbar>
-              <Box sx={{display: 'flex', justifyContent: { xs: 'space-between', md: `${isSemDrawer ? 'space-between': 'end'}`}, width: '100%'}}>
+              <Box sx={{display: 'flex', justifyContent: { xs: 'space-between', md: `${isSemDrawer ? 'space-between': 'end'}`}, width: '100%' ,height: '65px'}}>
                   <IconButton
                       color="inherit"
                       aria-label="open drawer"
@@ -35,7 +35,11 @@ export default function CustomNavbar({ handleDrawerToggle, isSemDrawer }) {
                       </Typography>
                   </Link>
                   {/*<Button color="inherit">Login</Button>*/}
-                  <MenuProfile />
+                  <Box sx={{display: 'flex', placeItems: 'center', gap: 4}}>
+                      <Link to={"/"} style={{textDecoration: 'none', color: 'black'}}>Encontrar pets</Link>
+                      <Link to={"/"} style={{textDecoration: 'none', color: 'black'}}>Parceiros</Link>
+                      <MenuProfile/>
+                  </Box>
               </Box>
           </Toolbar>
       </AppBar>

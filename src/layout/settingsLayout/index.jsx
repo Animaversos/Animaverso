@@ -1,4 +1,4 @@
-import {Link, Outlet, useNavigate} from "react-router-dom";
+import {Link, Outlet, useLocation, useNavigate} from "react-router-dom";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
@@ -8,11 +8,44 @@ import Typography from "@mui/material/Typography";
 import MenuProfile from "../../components/menuProfile/index.jsx";
 import Drawer from "@mui/material/Drawer";
 import {Button, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
-import {Inbox, Mail} from "@mui/icons-material";
+import {Favorite, Inbox, Mail, Person, Pets} from "@mui/icons-material";
 
 const drawerWidth = 282;
+
+const itensNavbar = [
+    {
+        id: 0,
+        path: "settings/profile",
+        text: "Perfil",
+        icon: <Person/>,
+    },
+    {
+        id: 1,
+        path: "settings/pets",
+        text: "Pets",
+        icon: <Pets/>,
+    },
+    {
+        id: 2,
+        path: "settings/interested",
+        text: "Interessados",
+        icon: <Favorite/>,
+    },
+
+];
 export default function SettingsLayout() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+    React.useLayoutEffect(() => {
+        itensNavbar.forEach((item) => {
+            if (location.pathname.includes(item.path)) {
+                setSelectedIndex(item.id);
+            }
+        });
+
+    }, [location.pathname]);
     return (
         <Box sx={{display: 'flex'}}>
             <AppBar position="fixed" sx={{zIndex: (theme) => theme.zIndex.drawer + 1}} color="inherit">
@@ -38,7 +71,12 @@ export default function SettingsLayout() {
                                 Animaverso
                             </Typography>
                         </Link>
-                        <MenuProfile/>
+                        <Box sx={{display: 'flex', placeItems: 'center', gap: 4}}>
+                            <Link to={"/"} style={{textDecoration: 'none', color: 'black'}}>Encontrar pets</Link>
+                            <Link to={"/"} style={{textDecoration: 'none', color: 'black'}}>Parceiros</Link>
+                            <MenuProfile/>
+                        </Box>
+
                     </Box>
                 </Toolbar>
             </AppBar>
@@ -54,24 +92,26 @@ export default function SettingsLayout() {
                 <Box sx={{flex: 1, flexGrow: 1, height: '100%'}}>
                     <Box sx={{overflow: 'auto'}}>
                         <List>
-                            {['profile', 'interested', 'pets'].map((text, index) => (
-                                <ListItem key={text} disablePadding>
-                                    <ListItemButton selected={true} onClick={() => navigate(`settings/${text}`)}
-                                                    sx={{
-                                                        "&.Mui-selected": {
-                                                            ".MuiListItemText-primary": {
-                                                                color: "var(--primary)",
-                                                            },
-                                                            ".MuiListItemIcon-root": {
-                                                                color: "var(--primary)",
-                                                            },
-                                                        },
-                                                    }}
+                            {itensNavbar.map((item) => (
+                                <ListItem key={item.id} disablePadding>
+                                    <ListItemButton
+                                        selected={selectedIndex === item.id}
+                                        onClick={() => navigate(`${item.path}`)}
+                                        sx={{
+                                            "&.Mui-selected": {
+                                                ".MuiListItemText-primary": {
+                                                    color: "var(--primary)",
+                                                },
+                                                ".MuiListItemIcon-root": {
+                                                    color: "var(--primary)",
+                                                },
+                                            },
+                                        }}
                                     >
                                         <ListItemIcon>
-                                            {index % 2 === 0 ? <Inbox/> : <Mail/>}
+                                            {item.icon}
                                         </ListItemIcon>
-                                        <ListItemText primary={text}/>
+                                        <ListItemText primary={item.text}/>
                                     </ListItemButton>
                                 </ListItem>
                             ))}

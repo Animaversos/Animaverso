@@ -61,8 +61,8 @@ export default function MenuProfile() {
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={() => handleCloseAndNavigate('settings/profile')}>Perfil</MenuItem>
-                <MenuItem onClick={() => handleCloseAndNavigate('settings/interested')}>Interesses</MenuItem>
                 <MenuItem onClick={() => handleCloseAndNavigate('settings/pets')}>Pets</MenuItem>
+                <MenuItem onClick={() => handleCloseAndNavigate('settings/interested')}>Interesses</MenuItem>
                 <Divider />
                 <MenuItem onClick={() => handleCloseAndNavigate('settings/profile')}>
                     <Typography sx={{color: '#FF005C'}}>

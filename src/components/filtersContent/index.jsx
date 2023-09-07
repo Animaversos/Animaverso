@@ -60,13 +60,16 @@ export default function FiltersContent() {
                             <CustomCheckboxGenero isFemea={true} label={"Feminino"} icon={<FemaleIcon sx={{fontSize: '40px', color: '#FF4DB8'}}  color="primary"/>}/>
                     </Box>
                 </Box>
+                <Box  sx={{paddingX: 2, paddingBottom: 2, mt:1}}>
+                    <Button variant={"contained"} size="small" fullWidth>Buscar</Button>
+                </Box>
+
             </Box>
 
             <Box>
                 <Divider/>
                 <Box sx={{display: 'flex', placeItens: 'center', padding: 2, gap: 1, backgroundColor: 'white'}}>
-                    <Button sx={{width: '110px'}} variant={"contained"}>Limpar</Button>
-                    <Button sx={{width: '110px'}} variant={"contained"}>Pesquisar</Button>
+                    <Button  variant={"contained"} fullWidth size="small" color="error">Limpar</Button>
                 </Box>
             </Box>
         </>
