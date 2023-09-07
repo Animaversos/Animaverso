@@ -56,7 +56,18 @@ export default function SettingsLayout() {
                         <List>
                             {['profile', 'interested', 'pets'].map((text, index) => (
                                 <ListItem key={text} disablePadding>
-                                    <ListItemButton onClick={() => navigate(`settings/${text}`)}>
+                                    <ListItemButton selected={true} onClick={() => navigate(`settings/${text}`)}
+                                                    sx={{
+                                                        "&.Mui-selected": {
+                                                            ".MuiListItemText-primary": {
+                                                                color: "var(--primary)",
+                                                            },
+                                                            ".MuiListItemIcon-root": {
+                                                                color: "var(--primary)",
+                                                            },
+                                                        },
+                                                    }}
+                                    >
                                         <ListItemIcon>
                                             {index % 2 === 0 ? <Inbox/> : <Mail/>}
                                         </ListItemIcon>

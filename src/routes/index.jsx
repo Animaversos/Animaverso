@@ -3,6 +3,10 @@ import RootLayout from "../layout/rootLayout";
 import Home from "../pages/home";
 import PetView from "../pages/petView/index.jsx";
 import SettingsLayout from "../layout/settingsLayout/index.jsx";
+import Profile from "../pages/profile/index.jsx";
+import ProfilePage from "../pages/profile/index.jsx";
+import InteressadosPage from "../pages/interessados/index.jsx";
+import PetsPage from "../pages/pets/index.jsx";
 
 const router = createBrowserRouter([
   {
@@ -27,15 +31,15 @@ const router = createBrowserRouter([
         children: [
           {
             path: "settings/profile",
-            element: <div>Profile</div>
+            element: <ProfilePage />
           },
           {
             path: "settings/interested",
-            element: <div>Interessados</div>
+            element: <InteressadosPage />
           },
           {
             path: "settings/pets",
-            element: <div>pets</div>
+            element: <PetsPage />
           }
         ],
       },
