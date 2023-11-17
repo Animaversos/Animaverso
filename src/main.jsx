@@ -1,4 +1,4 @@
-import {createTheme, CssBaseline, GlobalStyles, ThemeProvider} from "@mui/material";
+import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {RouterProvider} from "react-router-dom";

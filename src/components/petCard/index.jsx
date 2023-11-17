@@ -4,38 +4,49 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import PetIcon from '@mui/icons-material/Pets';
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import {Link} from "react-router-dom";
+import Box from "@mui/material/Box";
+import {CardMedia} from "@mui/material";
 
-const PetCard = ({ petData }) => {
-    const {id, name, summary, sex, size, weight, image } = petData;
+const PetCard = ({petData}) => {
+    const {id, name, summary, sex, size, weight, image} = petData;
 
     return (
-        <Card style={{ width: '300px', margin: '10px' }}>
-            <img src={image} alt={name} style={{ width: '100%', height: '250px' }} />
-            <CardContent>
-                <Typography variant="h6" component="div">
-                    {name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
+        <Card variant={"outlined"} sx={{height: '530px', width: '334px', borderRadius: 3, boxShadow: 3}}>
+            <CardMedia
+                component="img"
+                alt={name}
+                height="334"
+                image={image}
+            />
+            <CardContent sx={{mb: 2}}>
+                <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+                    <Typography variant="h6" component="div">
+                        {name}
+                    </Typography>
+                    {
+                        sex === 'Male' ? <MaleIcon fontSize="medium" color="primary"/> :
+                            <FemaleIcon fontSize="medium" color="primary"/>
+                    }
+                </Box>
+
+                <Typography variant="body2" color="text.secondary"  sx={{textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden'}}>
                     {summary}
                 </Typography>
-                <div style={{ display: 'flex', alignItems: 'center', marginTop: '8px' }}>
-                    {sex === 'Male' ? <MaleIcon fontSize="small" color="primary" /> : <FemaleIcon fontSize="small" color="secondary" />}
-                    <Typography variant="body2" color="text.secondary" style={{ marginLeft: '4px' }}>
-                        Size: {size}, Weight: {weight}
+                <div style={{display: 'flex',  marginTop: '8px'}}>
+                    <Typography variant="body2" color="text.secondary">
+                       Criciuma, Santa luzia
                     </Typography>
                 </div>
             </CardContent>
             <CardActions>
-                <Link to={`/pet/${id}`}>
-                    <Button fullWidth variant="contained" color="primary">
-                        Ver mais
-                    </Button>
-                </Link>
-
+                <Button fullWidth variant="contained" color="primary">
+                    <Link to={`/pet/${id}`} target="_blank" style={{textDecoration: 'none', color: 'white'}}>
+                        Quero adotar
+                    </Link>
+                </Button>
             </CardActions>
         </Card>
     );

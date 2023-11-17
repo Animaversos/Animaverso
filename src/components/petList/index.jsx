@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import PetCard from "../petCard/index.jsx";
+import Box from "@mui/material/Box";
+import {Container} from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 const mockPetData = [
     {
         id: 1,
         name: 'Bolinha',
-        summary: 'Bolinha é um cachorro muito legal',
+        summary: 'Bolinha é um cachorro muito legalassssssss  ssssssssssssssssssssssssssssssssssssdads',
         sex: 'M',
         size: 'M',
         weight: '10kg',
@@ -52,21 +55,22 @@ const mockPetData = [
 ];
 
 const PetList = () => {
-    const [petsToShow, setPetsToShow] = useState(3); // Quantidade inicial de pets a serem exibidos
+    const [petsToShow, setPetsToShow] = useState(4); // Quantidade inicial de pets a serem exibidos
 
     const handleLoadMore = () => {
-        setPetsToShow(petsToShow + 3); // Carregar mais 3 pets
+        setPetsToShow(petsToShow + 3);
     };
 
     const renderedPetCards = mockPetData.slice(0, petsToShow).map((pet, index) => (
-        <Grid item key={index} xs={12} sm={12} md={6} lg={4} xl={3}>
+        <Grid item key={index} xs>
             <PetCard petData={pet} />
         </Grid>
     ));
 
     return (
-        <div>
-            <Grid container spacing={2}>
+        <Container  maxWidth="xl">
+            <Typography variant="h5" sx={{mb: 2}} fontWeight={500}>Aumiguinhos e miauguinhos disponíveis</Typography>
+            <Grid container spacing={1} >
                 {renderedPetCards}
             </Grid>
             {petsToShow < mockPetData.length && (
@@ -76,7 +80,8 @@ const PetList = () => {
                     </Button>
                 </div>
             )}
-        </div>
+        </Container>
+
     );
 };
 

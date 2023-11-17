@@ -1,12 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layout/rootLayout";
-import Home from "../pages/home";
-import PetView from "../pages/petView/index.jsx";
 import SettingsLayout from "../layout/settingsLayout/index.jsx";
-import Profile from "../pages/profile/index.jsx";
-import ProfilePage from "../pages/profile/index.jsx";
+import Home from "../pages/home";
 import InteressadosPage from "../pages/interessados/index.jsx";
+import LandingPage from "../pages/landingPage/index.jsx";
 import PetsPage from "../pages/pets/index.jsx";
+import ProfilePage from "../pages/profile/index.jsx";
 
 const router = createBrowserRouter([
   {
@@ -14,33 +13,32 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        element: <LandingPage />,
+      },
+      {
         element: <RootLayout />,
-        children : [
+        children: [
           {
-            path: "/",
+            path: "/pet",
             element: <Home />,
           },
-          {
-            path: "/pet/:idPet",
-            element: <PetView />
-          },
-        ]
+        ],
       },
       {
         element: <SettingsLayout />,
         children: [
           {
             path: "settings/profile",
-            element: <ProfilePage />
+            element: <ProfilePage />,
           },
           {
             path: "settings/interested",
-            element: <InteressadosPage />
+            element: <InteressadosPage />,
           },
           {
             path: "settings/pets",
-            element: <PetsPage />
-          }
+            element: <PetsPage />,
+          },
         ],
       },
     ],
