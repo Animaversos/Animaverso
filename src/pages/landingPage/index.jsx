@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import LogoSemNome from "../../assets/logo-sem-nome.png";
 import DogLp from "../../assets/dog-lp.png"
 import PetsLp from "../../assets/pets-lp.png"
+import Footer from "../../components/footer";
 
 export default function LandingPage() {
   return (
@@ -82,7 +83,7 @@ export default function LandingPage() {
               display: 'grid',
               placeItems: 'center'
             }}>
-              <img src={DogLp} alt="logo" />
+              <img src={DogLp} alt="cachorro com fundo rosa" draggable="false"/>
             </Box>
           </Box>
           <Box sx={{
@@ -93,21 +94,11 @@ export default function LandingPage() {
             <Typography fontSize={'2.0rem'} marginBottom={'20px'}>
               Veja nosso <b style={{ color: 'var(--primary)' }}>universo</b>
             </Typography>
-            <img src={PetsLp} alt="logo" />
+            <img src={PetsLp} alt="logo" draggable="false"/>
           </Box>
         </Box>
       </Container>
-      <Box sx={{
-        height: '85px',
-        backgroundColor: '#F6F6F6',
-        display: 'flex',
-        alignItems: 'center',
-        mt: '2rem',
-        paddingLeft: '2rem',
-        borderTop:'1px solid #EEEEEE'
-      }}>
-        <Typography>Direitos reservados ao Animaverso </Typography>
-      </Box>
+      <Footer />
     </>
   );
 }
