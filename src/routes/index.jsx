@@ -10,6 +10,7 @@ import LoginPage from "../pages/loginPage/index.jsx";
 import RelembrarSenhaPage from "../pages/relembrarSenha/index.jsx";
 import AuthenticationLayout from "../layout/authenticationLayout/index.jsx";
 import RedefinirSenhaPage from "../pages/redefinirSenhaPage/index.jsx";
+import CadastroUsuarioPage from "../pages/cadastroUsuario/index.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
           {
             path: "signin",
             element: <LoginPage />,
+          },
+          {
+            path: "signup",
+            element: <CadastroUsuarioPage />,
           },
           {
             path: "rememberPassword",

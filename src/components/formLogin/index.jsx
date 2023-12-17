@@ -9,12 +9,12 @@ import {
 import useFormLogin from "./useFormLogin";
 import { useForm } from "react-hook-form";
 import InputSenha from "../inputSenha";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const FormLogin = () => {
   const { handleSubmit, register } = useForm();
   const { submit, isLoading } = useFormLogin();
-
+  const navigate = useNavigate();
   return (
     <>
       <Box
@@ -66,7 +66,14 @@ const FormLogin = () => {
             }}
           ></div>
         </Box>
-        <Button variant="outlined">Cadastre-se</Button>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            navigate("/authentication/signup");
+          }}
+        >
+          Cadastre-se
+        </Button>
       </Box>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
