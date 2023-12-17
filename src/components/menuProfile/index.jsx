@@ -84,13 +84,7 @@ export default function MenuProfile() {
             <Typography sx={{ fontWeight: "bold" }}>
               {user.usuario.nome}
             </Typography>
-            <Typography
-              sx={{
-                color: "rgba(0, 0, 0, 0.50)",
-              }}
-            >
-              {user.usuario.email}
-            </Typography>
+            <Typography sx={{}}>{user.usuario.email}</Typography>
           </Box>
         </MenuItem>
         <Divider />

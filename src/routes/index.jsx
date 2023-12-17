@@ -9,6 +9,7 @@ import ProfilePage from "../pages/profile/index.jsx";
 import LoginPage from "../pages/loginPage/index.jsx";
 import RelembrarSenhaPage from "../pages/relembrarSenha/index.jsx";
 import AuthenticationLayout from "../layout/authenticationLayout/index.jsx";
+import RedefinirSenhaPage from "../pages/redefinirSenhaPage/index.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
           {
             path: "rememberPassword",
             element: <RelembrarSenhaPage />,
+          },
+          {
+            path: "redefinePassword/:hash",
+            element: <RedefinirSenhaPage />,
           },
         ],
       },

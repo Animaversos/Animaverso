@@ -8,4 +8,19 @@ const realizaLogin = async (body) => {
   return await api.post("/auth/login", body);
 };
 
-export default { realizaLogin };
+const relembraSenha = async (body) => {
+  if (body == null) {
+    throw new Error("Corpo da requisição não informado");
+  }
+
+  return await api.post("/auth/recuperar-senha", body);
+};
+
+const redefinirSenha = async (hash, body) => {
+  if (body == null) {
+    throw new Error("Corpo da requisição não informado");
+  }
+
+  return await api.post(`/auth/atualiza-senha-esquecida/${hash}`, body);
+};
+export default { realizaLogin, relembraSenha, redefinirSenha };

@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import PropTypes from "prop-types";
 
-const InputSenha = ({ register }) => {
+const InputSenha = ({ register, label }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePasswordVisibility = () => {
@@ -15,7 +15,7 @@ const InputSenha = ({ register }) => {
     <TextField
       {...register}
       type={showPassword ? "text" : "password"}
-      label="Senha"
+      label={label ?? "Senha"}
       size="small"
       autoComplete="false"
       InputProps={{
@@ -33,6 +33,7 @@ const InputSenha = ({ register }) => {
 
 InputSenha.propTypes = {
   register: PropTypes.any,
+  label: PropTypes.string,
 };
 
 export default InputSenha;
