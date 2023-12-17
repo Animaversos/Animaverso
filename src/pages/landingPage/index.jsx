@@ -1,8 +1,8 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import LogoSemNome from "../../assets/logo-sem-nome.png";
-import DogLp from "../../assets/dog-lp.png"
-import PetsLp from "../../assets/pets-lp.png"
+import DogLp from "../../assets/dog-lp.png";
+import PetsLp from "../../assets/pets-lp.png";
 import Footer from "../../components/footer";
 
 export default function LandingPage() {
@@ -42,62 +42,104 @@ export default function LandingPage() {
             </Link>
           </Box>
           <Box sx={{ display: "flex", placeItems: "center", gap: 3 }}>
-            <Link to={"/pet"} style={{ textDecoration: "none", color: "black" }}>
+            <Link
+              to={"/pet"}
+              style={{ textDecoration: "none", color: "black" }}
+            >
               Pets
             </Link>
-            <Button variant="outlined" onClick={() => {
-              navigate('/authentication/signin')
-            }}>Entrar</Button>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                navigate("/authentication/signin");
+              }}
+            >
+              Entrar
+            </Button>
           </Box>
         </Box>
         <Box
           sx={{
-            marginTop: '100px',
-            width: '100%'
+            marginTop: "100px",
+            width: "100%",
           }}
         >
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}>
-            <Box width={'50%'} sx={{
-              paddingLeft: '5%'
-            }}>
-              <Typography fontSize={'2.5rem'}>
-                Uma <b style={{ color: 'var(--primary)' }}>plataforma</b> para você descobrir o universo do <b style={{ color: 'var(--primary)' }}>amor</b>.
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              width={"50%"}
+              sx={{
+                paddingLeft: "5%",
+              }}
+            >
+              <Typography fontSize={"2.5rem"}>
+                Uma <b style={{ color: "var(--primary)" }}>plataforma</b> para
+                você descobrir o universo do{" "}
+                <b style={{ color: "var(--primary)" }}>amor</b>.
               </Typography>
-              <Box sx={{
-                display: 'flex',
-                alignItems: 'center',
-                height: '42px',
-                mt: '30px'
-              }}>
-                <Button variant="contained">
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  height: "42px",
+                  mt: "30px",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    navigate("/pet");
+                  }}
+                >
                   Adote um amiguinho
                 </Button>
-                <p style={{ margin: '0px 20px' }}>OU</p>
-                <Button variant="outlined">
+                <p style={{ margin: "0px 20px" }}>OU</p>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    navigate("/settings/pets");
+                  }}
+                >
                   Cadastre um pet
                 </Button>
               </Box>
             </Box>
-            <Box width={'50%'} sx={{
-              display: 'grid',
-              placeItems: 'center'
-            }}>
-              <img src={DogLp} alt="cachorro com fundo rosa" draggable="false"/>
+            <Box
+              width={"50%"}
+              sx={{
+                display: "grid",
+                placeItems: "center",
+              }}
+            >
+              <img
+                src={DogLp}
+                alt="cachorro com fundo rosa"
+                draggable="false"
+              />
             </Box>
           </Box>
-          <Box sx={{
-            mt: '10rem',
-            display: 'grid',
-            placeItems: 'center'
-          }}>
-            <Typography fontSize={'2.0rem'} marginBottom={'20px'}>
-              Veja nosso <b style={{ color: 'var(--primary)' }}>universo</b>
-            </Typography>
-            <img src={PetsLp} alt="logo" draggable="false"/>
+          <Box
+            sx={{
+              mt: "10rem",
+              display: "grid",
+              placeItems: "center",
+            }}
+          >
+            <Link to={"/pet"} style={{ textDecoration: "none" }}>
+              <Typography
+                fontSize={"2.0rem"}
+                marginBottom={"20px"}
+                color={"black"}
+              >
+                Veja nosso <b style={{ color: "var(--primary)" }}>universo</b>
+              </Typography>
+            </Link>
+            <img src={PetsLp} alt="logo" draggable="false" />
           </Box>
         </Box>
       </Container>
