@@ -6,7 +6,6 @@ async function getUserById(id) {
   }
 
   const { data } = await api.get(`/usuarios/${id}`);
-  console.log("data: ", data);
   return data;
 }
 

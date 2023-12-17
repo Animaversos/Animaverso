@@ -104,7 +104,12 @@ export default function MenuProfile() {
           Interesses
         </MenuItem>
         <Divider />
-        <MenuItem onClick={() => delUser()}>
+        <MenuItem
+          onClick={() => {
+            delUser();
+            navigate("/pet");
+          }}
+        >
           <Typography sx={{ color: "#FF005C" }}>Sair</Typography>
         </MenuItem>
       </Menu>
