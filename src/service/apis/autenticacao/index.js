@@ -5,7 +5,7 @@ const realizaLogin = async (body) => {
     throw new Error("Corpo da requisição não informado");
   }
 
-  return api.post("/auth/login", body);
+  return await api.post("/auth/login", body);
 };
 
 export default { realizaLogin };
