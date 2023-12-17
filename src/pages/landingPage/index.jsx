@@ -1,11 +1,12 @@
 import { Box, Button, Container, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoSemNome from "../../assets/logo-sem-nome.png";
 import DogLp from "../../assets/dog-lp.png"
 import PetsLp from "../../assets/pets-lp.png"
 import Footer from "../../components/footer";
 
 export default function LandingPage() {
+  const navigate = useNavigate();
   return (
     <>
       <Container fixed>
@@ -44,7 +45,9 @@ export default function LandingPage() {
             <Link to={"/pet"} style={{ textDecoration: "none", color: "black" }}>
               Pets
             </Link>
-            <Button variant="outlined">Entrar</Button>
+            <Button variant="outlined" onClick={() => {
+              navigate('/authentication/signin')
+            }}>Entrar</Button>
           </Box>
         </Box>
         <Box

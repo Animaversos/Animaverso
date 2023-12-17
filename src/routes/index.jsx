@@ -6,6 +6,7 @@ import InteressadosPage from "../pages/interessados/index.jsx";
 import LandingPage from "../pages/landingPage/index.jsx";
 import PetsPage from "../pages/pets/index.jsx";
 import ProfilePage from "../pages/profile/index.jsx";
+import LoginPage from "../pages/loginPage/index.jsx";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
+      },
+      {
+        path: "/authentication/signin",
+        element: <LoginPage />,
       },
       {
         element: <RootLayout />,
