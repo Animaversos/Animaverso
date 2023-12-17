@@ -7,6 +7,8 @@ import LandingPage from "../pages/landingPage/index.jsx";
 import PetsPage from "../pages/pets/index.jsx";
 import ProfilePage from "../pages/profile/index.jsx";
 import LoginPage from "../pages/loginPage/index.jsx";
+import RelembrarSenhaPage from "../pages/relembrarSenha/index.jsx";
+import AuthenticationLayout from "../layout/authenticationLayout/index.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,8 +19,18 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
-        path: "/authentication/signin",
-        element: <LoginPage />,
+        path: "/authentication",
+        element: <AuthenticationLayout />,
+        children: [
+          {
+            path: "signin",
+            element: <LoginPage />,
+          },
+          {
+            path: "rememberPassword",
+            element: <RelembrarSenhaPage />,
+          },
+        ],
       },
       {
         element: <RootLayout />,

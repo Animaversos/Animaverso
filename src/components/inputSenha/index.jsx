@@ -17,6 +17,7 @@ const InputSenha = ({ register }) => {
       type={showPassword ? "text" : "password"}
       label="Senha"
       size="small"
+      autoComplete="false"
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

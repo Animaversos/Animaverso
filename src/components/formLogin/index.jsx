@@ -2,15 +2,14 @@ import {
   Backdrop,
   Box,
   Button,
-  Checkbox,
   CircularProgress,
-  FormControlLabel,
   TextField,
   Typography,
 } from "@mui/material";
 import useFormLogin from "./useFormLogin";
 import { useForm } from "react-hook-form";
 import InputSenha from "../inputSenha";
+import { Link } from "react-router-dom";
 
 const FormLogin = () => {
   const { handleSubmit, register } = useForm();
@@ -38,10 +37,15 @@ const FormLogin = () => {
           {...register("usuario", { required: true })}
         />
         <InputSenha register={{ ...register("senha", { required: true }) }} />
-        <FormControlLabel
-          control={<Checkbox size={"small"} />}
-          label="Mantenha-me conectado"
-        />
+
+        <Link
+          style={{
+            color: "black",
+          }}
+          to={"/authentication/rememberPassword"}
+        >
+          <Typography>Esqueceu senha ?</Typography>
+        </Link>
         <Button variant="contained" type="submit">
           Entrar
         </Button>
