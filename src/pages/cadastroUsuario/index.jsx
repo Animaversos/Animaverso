@@ -4,25 +4,23 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
-import { TextField, Typography } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
-import { useSnackbar } from "notistack";
+import {
+  Backdrop,
+  CircularProgress,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useForm } from "react-hook-form";
+import useCadastroUsuario from "./useCadastroUsuario";
 
 const steps = ["Preencha os seus dados pessoais", "Crie seu usuário e senha"];
 
 export default function CadastroUsuarioPage() {
-  const { enqueueSnackbar } = useSnackbar();
-  const { register, handleSubmit, control, formState } = useForm();
+  const { register, handleSubmit } = useForm();
   const [activeStep, setActiveStep] = React.useState(0);
+  const { submit, isLoading } = useCadastroUsuario();
 
   const handleNext = () => {
-    if (!formState.isValid) {
-      enqueueSnackbar("Preencha os campos corretamente.", {
-        variant: "warning",
-        autoHideDuration: 3000,
-      });
-      return;
-    }
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -30,11 +28,6 @@ export default function CadastroUsuarioPage() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const insertMaskInCpf = (cpf) => {
-    cpf.replace(/\D/g, "");
-
-    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
-  };
   return (
     <Box sx={{ width: "100%" }}>
       <Stepper alternativeLabel activeStep={activeStep}>
@@ -58,9 +51,7 @@ export default function CadastroUsuarioPage() {
         <Box width={"500px"}>
           <Box
             component={"form"}
-            onSubmit={handleSubmit((data) => {
-              console.log(data);
-            })}
+            onSubmit={handleSubmit(submit)}
             sx={{
               height: "300px",
             }}
@@ -92,22 +83,18 @@ export default function CadastroUsuarioPage() {
                 {...register("email", { required: true })}
               />
 
-              <Controller
-                name="cpf"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField
-                    label="CPF"
-                    variant="outlined"
-                    fullWidth
-                    size="small"
-                    inputProps={{ maxLength: 14 }}
-                    placeholder="000.000.000-00"
-                    value={insertMaskInCpf(field.value)}
-                    onChange={(e) => field.onChange(e.target.value)}
-                  />
-                )}
+              <TextField
+                label="CPF"
+                variant="outlined"
+                fullWidth
+                size="small"
+                helperText="Informe apenas os numeros do seu CPF."
+                inputProps={{
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                  maxLength: 11,
+                }}
+                {...register("cpf")}
               />
             </Box>
             {activeStep == 1 ? (
@@ -166,6 +153,12 @@ export default function CadastroUsuarioPage() {
           </Box>
         </Box>
       </Box>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="primary" />
+      </Backdrop>
     </Box>
   );
 }

@@ -23,4 +23,18 @@ const redefinirSenha = async (hash, body) => {
 
   return await api.post(`/auth/atualiza-senha-esquecida/${hash}`, body);
 };
-export default { realizaLogin, relembraSenha, redefinirSenha };
+
+const cadastrarUsuario = async (body) => {
+  if (body == null) {
+    throw new Error("Corpo da requisição não informado");
+  }
+
+  return await api.post(`/auth/registrar`, body);
+};
+
+export default {
+  realizaLogin,
+  relembraSenha,
+  redefinirSenha,
+  cadastrarUsuario,
+};
