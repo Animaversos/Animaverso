@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import PropTypes from "prop-types";
 
-const InputSenha = ({ register, label }) => {
+const InputSenha = ({ register, label, fullWidth }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePasswordVisibility = () => {
@@ -18,6 +18,7 @@ const InputSenha = ({ register, label }) => {
       label={label ?? "Senha"}
       size="small"
       autoComplete="false"
+      fullWidth={fullWidth ?? false}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
@@ -34,6 +35,7 @@ const InputSenha = ({ register, label }) => {
 InputSenha.propTypes = {
   register: PropTypes.any,
   label: PropTypes.string,
+  fullWidth: PropTypes.bool,
 };
 
 export default InputSenha;

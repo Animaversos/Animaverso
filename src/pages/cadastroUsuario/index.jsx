@@ -4,6 +4,8 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
+import InputSenha from "../../components/inputSenha";
+
 import {
   Backdrop,
   CircularProgress,
@@ -118,11 +120,10 @@ export default function CadastroUsuarioPage() {
                   size="small"
                   {...register("usuario", { required: true })}
                 />
-                <TextField
-                  fullWidth
-                  label="Senha"
-                  size="small"
-                  {...register("senha", { required: true })}
+
+                <InputSenha
+                  fullWidth={true}
+                  register={{ ...register("senha", { required: true }) }}
                 />
                 <Button type="submit" variant="contained" fullWidth>
                   Cadastrar
