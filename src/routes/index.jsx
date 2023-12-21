@@ -11,6 +11,7 @@ import RelembrarSenhaPage from "../pages/relembrarSenha/index.jsx";
 import AuthenticationLayout from "../layout/authenticationLayout/index.jsx";
 import RedefinirSenhaPage from "../pages/redefinirSenhaPage/index.jsx";
 import CadastroUsuarioPage from "../pages/cadastroUsuario/index.jsx";
+import EnderecoPage from "../pages/endereco/index.jsx";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
           {
             path: "settings/profile",
             element: <ProfilePage />,
+          },
+          {
+            path: "settings/address",
+            element: <EnderecoPage />,
           },
           {
             path: "settings/interested",

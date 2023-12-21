@@ -56,17 +56,6 @@ export default function ProfilePage() {
           size="small"
           defaultValue={data.email}
         />
-        <TextField
-          id="outlined-multiline-flexible"
-          label="Biografia"
-          size="small"
-          multiline
-          rows={4}
-          fullWidth
-          helperText={
-            "A biografica será apresentada para as pessoas que estejam vendo os pets que você cadastro ao clicar no seu nome."
-          }
-        />
         <Button
           variant={"contained"}
           sx={{ width: "180px", textTransform: "none" }}

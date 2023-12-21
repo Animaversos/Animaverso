@@ -16,7 +16,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { Favorite, Person, Pets } from "@mui/icons-material";
+import { Favorite, Person, Pets, Place } from "@mui/icons-material";
 import useUserStorage from "../../hooks/userUserStore";
 const drawerWidth = 282;
 
@@ -29,12 +29,18 @@ const itensNavbar = [
   },
   {
     id: 1,
+    path: "settings/address",
+    text: "Endereco",
+    icon: <Place />,
+  },
+  {
+    id: 2,
     path: "settings/pets",
     text: "Pets",
     icon: <Pets />,
   },
   {
-    id: 2,
+    id: 3,
     path: "settings/interested",
     text: "Interessados",
     icon: <Favorite />,
