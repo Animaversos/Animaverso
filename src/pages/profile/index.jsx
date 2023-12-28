@@ -28,7 +28,7 @@ export default function ProfilePage() {
         flexDirection: "column",
         justifyContent: "space-around",
         height: "100%",
-        width: "70%",
+        width: "75%",
       }}
     >
       <Box>

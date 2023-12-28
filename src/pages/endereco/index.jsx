@@ -1,4 +1,12 @@
-import { Box, Button, Divider, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
+import AutocompleteEstado from "../../components/autoCompleteEstado";
 
 export default function EnderecoPage() {
   return (
@@ -9,7 +17,7 @@ export default function EnderecoPage() {
           flexDirection: "column",
           justifyContent: "space-around",
           height: "100%",
-          width: "70%",
+          width: "75%",
         }}
       >
         <Box>
@@ -22,37 +30,36 @@ export default function EnderecoPage() {
           </Typography>
         </Box>
         <Divider />
-        <Box sx={{ display: "grid", gap: 2 }}>
-          <TextField
-            label={"Nome"}
-            fullWidth
-            //defaultValue={data.nome}
-            helperText={
-              "Este é o seu nome de exibição público. Pode ser seu nome real ou um pseudônimo."
-            }
-            size="small"
-          />
-          <TextField
-            label={"E-mail"}
-            fullWidth
-            size="small"
-            //defaultValue={data.email}
-          />
-          <TextField
-            id="outlined-multiline-flexible"
-            label="Biografia"
-            size="small"
-            multiline
-            rows={4}
-            fullWidth
-            helperText={
-              "A biografica será apresentada para as pessoas que estejam vendo os pets que você cadastro ao clicar no seu nome."
-            }
-          />
+        <Box component={"form"}>
+          <Grid container spacing={2} marginBottom={2}>
+            {/* Primeira Linha: Estado e Cidade */}
+            <Grid item xs={6}>
+              {/*<TextField label="Estado" size="small" fullWidth />*/}
+              <AutocompleteEstado />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField label="Cidade" size="small" fullWidth />
+            </Grid>
+
+            {/* Segunda Linha: Bairro, Logradouro, Numero */}
+            <Grid item xs={4}>
+              <TextField label="Bairro" size="small" fullWidth />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField label="Logradouro" size="small" fullWidth />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField label="Número" size="small" fullWidth />
+            </Grid>
+
+            {/* Terceira Linha: Complemento */}
+            <Grid item xs={12}>
+              <TextField label="Complemento" size="small" fullWidth />
+            </Grid>
+          </Grid>
           <Button
             variant={"contained"}
             sx={{ width: "180px", textTransform: "none" }}
-            size="small"
           >
             Salvar alterações
           </Button>
