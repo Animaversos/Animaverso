@@ -8,14 +8,10 @@ const AutocompleteEstado = () => {
   const [options, setOptions] = useState([]);
 
   const handleInputChange = debounce(async (event, value) => {
-    try {
-      const response = await api.get(
-        `http://localhost:3000/api/enderecos/estados?nome=${value}`
-      );
-      setOptions(response.data);
-    } catch (error) {
-      console.error("Erro ao buscar endereços:", error);
-    }
+    const response = await api.get(
+      `http://localhost:3000/api/enderecos/estados?nome=${value}`
+    );
+    setOptions(response.data);
   }, 300); // Atraso de 300 milissegundos
 
   return (

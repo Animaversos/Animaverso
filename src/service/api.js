@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const api = axios.create({ baseURL: "http://localhost:3000/api" });
 
@@ -22,14 +23,43 @@ api.interceptors.request.use(
   }
 );
 
-// Adiciona um interceptor para a resposta de cada requisição
+const getNewToken = async () => {
+  const userStorage = localStorage.getItem("user-storage");
+  const user = JSON.parse(userStorage);
+  const response = await api.get(
+    `auth/verifica-token/${user.state.user.refresh_token}`
+  );
+
+  user.state.user.access_token = response.data;
+  localStorage.setItem("user-storage", JSON.stringify(user));
+  return response.data;
+};
+
 api.interceptors.response.use(
   (response) => {
-    // Pode fazer algo com a resposta antes de devolvê-la ao chamador
     return response;
   },
-  (error) => {
-    // Pode tratar erros de resposta, se necessário
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      error.response.data.message === "Token expirado" &&
+      !originalRequest._retry
+    ) {
+      try {
+        originalRequest._retry = true;
+        const newToken = await getNewToken();
+        api.defaults.headers.common["Authorization"] = "Bearer " + newToken;
+        return api(originalRequest);
+      } catch (refreshError) {
+        window.location.href = "/";
+        localStorage.removeItem("user-storage");
+        return Promise.reject(refreshError);
+      }
+    }
+
     return Promise.reject(error);
   }
 );

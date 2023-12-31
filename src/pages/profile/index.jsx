@@ -64,30 +64,6 @@ export default function ProfilePage() {
           Salvar alterações
         </Button>
       </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          border: "1px solid var(--primary)",
-          gap: 2,
-          padding: 2,
-          borderRadius: 1,
-        }}
-      >
-        <Typography variant="h5" fontWeight="bold" color="primary">
-          Zona de perigo
-        </Typography>
-        <TextField label={"Senha atual"} size="small" sx={{ width: "350px" }} />
-        <TextField label={"Nova senha"} size="small" sx={{ width: "350px" }} />
-        <Button
-          variant={"contained"}
-          sx={{ width: "160px", textTransform: "none" }}
-          size="small"
-        >
-          Atualizar senha
-        </Button>
-      </Box>
     </Box>
   );
 }
