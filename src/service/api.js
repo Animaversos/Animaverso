@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
+import useUserStorage from "../hooks/userUserStore";
+import { enqueueSnackbar } from "notistack";
 const api = axios.create({ baseURL: "http://localhost:3000/api" });
 
 // Adiciona um interceptor antes de cada requisição
@@ -41,7 +41,7 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-
+    const { delUser } = useUserStorage.getState();
     if (
       error.response &&
       error.response.status === 401 &&
@@ -54,8 +54,17 @@ api.interceptors.response.use(
         api.defaults.headers.common["Authorization"] = "Bearer " + newToken;
         return api(originalRequest);
       } catch (refreshError) {
-        window.location.href = "/";
-        localStorage.removeItem("user-storage");
+        delUser();
+        enqueueSnackbar(refreshError.response.data.message, {
+          variant: "error",
+
+          autoHideDuration: 3000,
+        });
+
+        setInterval(() => {
+          window.location.href = "/";
+        }, 2000);
+
         return Promise.reject(refreshError);
       }
     }
