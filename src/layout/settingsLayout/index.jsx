@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { Favorite, Person, Pets, Place } from "@mui/icons-material";
 import useUserStorage from "../../hooks/userUserStore";
+import { isEmpty } from "lodash";
 const drawerWidth = 282;
 
 const itensNavbar = [
@@ -47,7 +48,7 @@ const itensNavbar = [
   },
 ];
 export default function SettingsLayout() {
-  const { delUser } = useUserStorage();
+  const { user, delUser } = useUserStorage();
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -58,7 +59,16 @@ export default function SettingsLayout() {
         setSelectedIndex(item.id);
       }
     });
-  }, [location.pathname]);
+  }, [location.pathname, user, navigate]);
+
+  React.useEffect(() => {
+    if (isEmpty(user)) {
+      navigate("/authentication/signin");
+      return;
+    }
+  }, [user, navigate]);
+  console.log(user);
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar

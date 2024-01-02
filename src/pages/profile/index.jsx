@@ -44,6 +44,7 @@ export default function ProfilePage() {
         <TextField
           label={"Nome"}
           fullWidth
+          disabled
           defaultValue={data.nome}
           helperText={
             "Este é o seu nome de exibição público. Pode ser seu nome real ou um pseudônimo."

@@ -7,7 +7,7 @@ const userUserStore = create(
       user: {},
       setUser: (user) => set({ user: user }),
       delUser: () => {
-        set({ user: {} });
+        set({ user: null });
         localStorage.removeItem("user-storage");
       },
     }),
