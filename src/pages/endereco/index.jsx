@@ -7,8 +7,13 @@ import {
   Typography,
 } from "@mui/material";
 import AutocompleteEstado from "../../components/autoCompleteEstado";
+import { useForm } from "react-hook-form";
 
 export default function EnderecoPage() {
+  const { register, handleSubmit, setValue } = useForm();
+  const saveAlteracao = (data) => {
+    console.log(data);
+  };
   return (
     <>
       <Box
@@ -30,12 +35,15 @@ export default function EnderecoPage() {
           </Typography>
         </Box>
         <Divider />
-        <Box component={"form"}>
+        <Box component={"form"} onSubmit={handleSubmit(saveAlteracao)}>
           <Grid container spacing={2} marginBottom={2}>
             {/* Primeira Linha: Estado e Cidade */}
             <Grid item xs={6}>
               {/*<TextField label="Estado" size="small" fullWidth />*/}
-              <AutocompleteEstado />
+              <AutocompleteEstado
+                register={register("estado")}
+                setValue={setValue}
+              />
             </Grid>
             <Grid item xs={6}>
               <TextField label="Cidade" size="small" fullWidth />
@@ -60,6 +68,7 @@ export default function EnderecoPage() {
           <Button
             variant={"contained"}
             sx={{ width: "180px", textTransform: "none" }}
+            type="submit"
           >
             Salvar alterações
           </Button>
