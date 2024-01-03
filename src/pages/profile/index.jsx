@@ -2,7 +2,7 @@ import { Backdrop, CircularProgress, Divider, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import UsuarioApi from "../../service/apis/usuario";
 import useUserStore from "../../hooks/userUserStore";
 import { useForm } from "react-hook-form";
@@ -10,15 +10,18 @@ import { useForm } from "react-hook-form";
 export default function ProfilePage() {
   const { user } = useUserStore();
   const { register, handleSubmit } = useForm();
-
+  const queryClient = useQueryClient();
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["getUser"],
-    queryFn: () => UsuarioApi.getUserById(user.usuario.id),
+    queryKey: ["getNomeEmail"],
+    queryFn: () => UsuarioApi.getNomeEmail(user.usuario.id),
   });
 
   const useMutationSaveEmail = useMutation({
-    mutationFn: (email) => {
-      return UsuarioApi.alteraEmail(user.usuario.id, email);
+    mutationFn: async (email) => {
+      return await UsuarioApi.alteraEmail(user.usuario.id, email);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getNomeEmail"] });
     },
   });
 

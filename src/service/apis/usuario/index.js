@@ -1,16 +1,19 @@
 import { enqueueSnackbar } from "notistack";
 import api from "../../api";
+import userUserStore from "../../../hooks/userUserStore";
 
-async function getUserById(id) {
+async function getNomeEmail(id) {
   if (id == null) {
     throw new Error("Codigo do usuario nao informado");
   }
 
-  const { data } = await api.get(`/usuarios/${id}`);
+  const { data } = await api.get(`/usuarios/${id}/nome-email`);
   return data;
 }
 
 async function alteraEmail(id, email) {
+  const { user, setUser } = userUserStore.getState();
+
   if (id == null) {
     throw new Error("Codigo do usuario nao informado");
   }
@@ -21,7 +24,10 @@ async function alteraEmail(id, email) {
 
   try {
     const { data } = await api.patch(`/usuarios/${id}`, { email });
-    enqueueSnackbar(data.message, {
+    user.usuario.email = data.email;
+    setUser({ ...user });
+
+    enqueueSnackbar("Usuário atualizado com sucesso.", {
       variant: "success",
       autoHideDuration: 3000,
     });
@@ -32,4 +38,4 @@ async function alteraEmail(id, email) {
     );
   }
 }
-export default { getUserById, alteraEmail };
+export default { getNomeEmail, alteraEmail };
