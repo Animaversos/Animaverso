@@ -77,6 +77,9 @@ export default function ProfilePage() {
             defaultValue={data.email}
             disabled={useMutationSaveEmail.isPending}
             {...register("email")}
+            helperText={
+              "Este e-mail será utilizado para envio de comunicados e alteração de senha."
+            }
           />
           <Button
             variant={"contained"}
