@@ -31,7 +31,7 @@ const itensNavbar = [
   {
     id: 1,
     path: "settings/address",
-    text: "Endereco",
+    text: "Endereço",
     icon: <Place />,
   },
   {
