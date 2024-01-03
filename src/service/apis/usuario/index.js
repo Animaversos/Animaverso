@@ -1,3 +1,4 @@
+import { enqueueSnackbar } from "notistack";
 import api from "../../api";
 
 async function getUserById(id) {
@@ -9,4 +10,26 @@ async function getUserById(id) {
   return data;
 }
 
-export default { getUserById };
+async function alteraEmail(id, email) {
+  if (id == null) {
+    throw new Error("Codigo do usuario nao informado");
+  }
+
+  if (email == null) {
+    throw new Error("Email nao informado");
+  }
+
+  try {
+    const { data } = await api.patch(`/usuarios/${id}`, { email });
+    enqueueSnackbar(data.message, {
+      variant: "success",
+      autoHideDuration: 3000,
+    });
+  } catch (error) {
+    enqueueSnackbar(
+      error?.response?.data?.message || "Erro ao atualizar o e-mail",
+      { variant: "error", autoHideDuration: 3000 }
+    );
+  }
+}
+export default { getUserById, alteraEmail };

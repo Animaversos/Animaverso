@@ -67,7 +67,6 @@ export default function SettingsLayout() {
       return;
     }
   }, [user, navigate]);
-  console.log(user);
 
   return (
     <Box sx={{ display: "flex" }}>
