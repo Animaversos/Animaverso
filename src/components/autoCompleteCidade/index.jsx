@@ -10,7 +10,6 @@ const AutocompleteCidade = ({ register, setValue, estado }) => {
   const { data: cidades, isLoading } = useQuery({
     queryKey: ["getCidades", estado],
     queryFn: async () => {
-      console.log(estado);
       if (estado) {
         const { data } = await api.get(
           `http://localhost:3000/api/enderecos/cidades/${estado.uf}`

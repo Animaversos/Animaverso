@@ -9,14 +9,26 @@ import {
 import AutocompleteEstado from "../../components/autoCompleteEstado";
 import { useForm } from "react-hook-form";
 import AutocompleteCidade from "../../components/autoCompleteCidade";
+import userUserStore from "../../hooks/userUserStore";
 
 export default function EnderecoPage() {
+  const { user } = userUserStore();
   const { register, handleSubmit, setValue, watch } = useForm();
 
   const estadoWatch = watch("estado");
 
   const saveAlteracao = (data) => {
-    console.log(data);
+    const enderecoDto = {
+      bairro: data.bairro,
+      id_cidade: data.cidade?.id,
+      id_estado: data.estado?.id,
+      complemento: data.complemento,
+      logradouro: data.logradouro,
+      numero: data.numero,
+      id_usuario: user.usuario?.id,
+    };
+
+    console.log(enderecoDto);
   };
   return (
     <>
