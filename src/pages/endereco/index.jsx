@@ -8,9 +8,13 @@ import {
 } from "@mui/material";
 import AutocompleteEstado from "../../components/autoCompleteEstado";
 import { useForm } from "react-hook-form";
+import AutocompleteCidade from "../../components/autoCompleteCidade";
 
 export default function EnderecoPage() {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, watch } = useForm();
+
+  const estadoWatch = watch("estado");
+
   const saveAlteracao = (data) => {
     console.log(data);
   };
@@ -42,27 +46,52 @@ export default function EnderecoPage() {
               {/*<TextField label="Estado" size="small" fullWidth />*/}
               <AutocompleteEstado
                 register={register("estado")}
+                registerCidade={register("cidade")}
                 setValue={setValue}
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField label="Cidade" size="small" fullWidth />
+              <AutocompleteCidade
+                register={register("cidade")}
+                setValue={setValue}
+                estado={estadoWatch}
+              />
             </Grid>
 
             {/* Segunda Linha: Bairro, Logradouro, Numero */}
             <Grid item xs={4}>
-              <TextField label="Bairro" size="small" fullWidth />
+              <TextField
+                label="Bairro"
+                size="small"
+                fullWidth
+                {...register("bairro")}
+              />
             </Grid>
             <Grid item xs={4}>
-              <TextField label="Logradouro" size="small" fullWidth />
+              <TextField
+                label="Logradouro"
+                size="small"
+                fullWidth
+                {...register("logradouro")}
+              />
             </Grid>
             <Grid item xs={4}>
-              <TextField label="Número" size="small" fullWidth />
+              <TextField
+                label="Número"
+                size="small"
+                fullWidth
+                {...register("numero")}
+              />
             </Grid>
 
             {/* Terceira Linha: Complemento */}
             <Grid item xs={12}>
-              <TextField label="Complemento" size="small" fullWidth />
+              <TextField
+                label="Complemento"
+                size="small"
+                fullWidth
+                {...register("complemento")}
+              />
             </Grid>
           </Grid>
           <Button

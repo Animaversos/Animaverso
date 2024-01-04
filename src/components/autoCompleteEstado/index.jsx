@@ -28,9 +28,7 @@ const AutocompleteEstado = ({ register, setValue }) => {
       getOptionSelected={(option, value) => option.id === value.id}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       onChange={(_, value) => {
-        console.log(value);
-
-        setValue(register.name, value.id); // Atualiza o valor no react-hook-form
+        setValue(register.name, value ? { id: value.id, uf: value.uf } : null);
       }}
       renderInput={(params) => (
         <TextField {...params} label="Estado" variant="outlined" size="small" />
