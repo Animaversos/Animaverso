@@ -22,6 +22,7 @@ const AutocompleteEstado = ({ register, setValue }) => {
 
   return (
     <Autocomplete
+      id="autocomplete-estado"
       options={options}
       getOptionLabel={(option) => option.label}
       noOptionsText={"Nenhum estado encontrado"}

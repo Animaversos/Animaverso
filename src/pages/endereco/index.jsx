@@ -10,14 +10,31 @@ import AutocompleteEstado from "../../components/autoCompleteEstado";
 import { useForm } from "react-hook-form";
 import AutocompleteCidade from "../../components/autoCompleteCidade";
 import userUserStore from "../../hooks/userUserStore";
+import { enqueueSnackbar } from "notistack";
+import EnderecoApi from "../../service/apis/enderecos";
+import api from "../../service/api";
+import { useQuery } from "@tanstack/react-query";
 
 export default function EnderecoPage() {
   const { user } = userUserStore();
   const { register, handleSubmit, setValue, watch } = useForm();
-
   const estadoWatch = watch("estado");
 
-  const saveAlteracao = (data) => {
+  const { data: usuarioEndereco } = useQuery({
+    queryKey: ["getCidades", user.usuario?.id],
+    queryFn: async () => {
+      if (user.usuario?.id) {
+        const { data } = await api.get(
+          `http://localhost:3000/api/enderecos/usuario/${user.usuario?.id}`
+        );
+
+        return data;
+      }
+      return {};
+    },
+  });
+
+  const saveAlteracao = async (data) => {
     const enderecoDto = {
       bairro: data.bairro,
       id_cidade: data.cidade?.id,
@@ -27,9 +44,42 @@ export default function EnderecoPage() {
       numero: data.numero,
       id_usuario: user.usuario?.id,
     };
+    if (!enderecoDto.id_estado) {
+      enqueueSnackbar("O Estado não foi informado.", {
+        variant: "warning",
+        autoHideDuration: 3000,
+      });
+      return;
+    }
+    if (!enderecoDto.id_cidade) {
+      enqueueSnackbar("A Cidade não foi informada.", {
+        variant: "warning",
+        autoHideDuration: 3000,
+      });
+      return;
+    }
 
-    console.log(enderecoDto);
+    try {
+      const response = await EnderecoApi.save(enderecoDto);
+
+      if (response) {
+        enqueueSnackbar("Endereço cadastrado com sucesso.", {
+          variant: "success",
+          autoHideDuration: 3000,
+        });
+      }
+    } catch (error) {
+      enqueueSnackbar(error.response?.data?.message, {
+        variant: "error",
+        autoHideDuration: 3000,
+      });
+    }
   };
+  const handleInputChange = (event) => {
+    const inputValue = event.target.value.replace(/[^0-9]/g, ""); // Remove caracteres não numéricos
+    setValue("numero", inputValue);
+  };
+
   return (
     <>
       <Box
@@ -73,32 +123,43 @@ export default function EnderecoPage() {
             {/* Segunda Linha: Bairro, Logradouro, Numero */}
             <Grid item xs={4}>
               <TextField
+                defaultValue={usuarioEndereco?.bairro}
                 label="Bairro"
                 size="small"
                 fullWidth
-                {...register("bairro")}
+                {...register("bairro", { required: true })}
               />
             </Grid>
             <Grid item xs={4}>
               <TextField
+                defaultValue={usuarioEndereco?.logradouro}
                 label="Logradouro"
                 size="small"
                 fullWidth
-                {...register("logradouro")}
+                {...register("logradouro", { required: true })}
               />
             </Grid>
             <Grid item xs={4}>
               <TextField
+                defaultValue={usuarioEndereco?.numero}
                 label="Número"
                 size="small"
+                type="text"
+                InputProps={{
+                  inputProps: {
+                    maxLength: 10, // Defina o limite de tamanho desejado
+                  },
+                }}
+                onInput={handleInputChange}
                 fullWidth
-                {...register("numero")}
+                {...register("numero", { required: true })}
               />
             </Grid>
 
             {/* Terceira Linha: Complemento */}
             <Grid item xs={12}>
               <TextField
+                defaultValue={usuarioEndereco?.complemento}
                 label="Complemento"
                 size="small"
                 fullWidth
