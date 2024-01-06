@@ -6,6 +6,13 @@ async function getAllPetsByIdUsuario(id) {
   return data;
 }
 
+async function getPetByUsuario(id) {
+  const { user } = userUserStore.getState();
+  let { data } = await api.get(`/pets/usuario/${user.usuario?.id}/${id}`);
+  console.log(data.nome);
+  return data;
+}
+
 async function save(form) {
   let formData = new FormData();
   const { user } = userUserStore.getState();
@@ -27,4 +34,4 @@ async function save(form) {
   return data;
 }
 
-export default { getAllPetsByIdUsuario, save };
+export default { getAllPetsByIdUsuario, save, getPetByUsuario };
