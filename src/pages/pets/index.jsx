@@ -3,8 +3,20 @@ import Typography from "@mui/material/Typography";
 import { Divider } from "@mui/material";
 import Button from "@mui/material/Button";
 import TabelaPets from "../../components/TabelaPets";
+import { useState } from "react";
+import CadastrarEditarPet from "../../components/modals/cadastrarEditarPet";
 
 export default function PetsPage() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <Box
       sx={{
@@ -35,6 +47,7 @@ export default function PetsPage() {
             variant="contained"
             color="primary"
             sx={{ textTransform: "none" }}
+            onClick={handleOpenModal}
           >
             CADASTRAR
           </Button>
@@ -42,6 +55,11 @@ export default function PetsPage() {
       </Box>
       <Divider />
       <TabelaPets />
+      <CadastrarEditarPet
+        isOpen={modalOpen}
+        handleClose={handleCloseModal}
+        id={0}
+      />
     </Box>
   );
 }

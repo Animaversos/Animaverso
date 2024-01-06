@@ -21,8 +21,7 @@ const useRedefinirSenha = () => {
         return;
       }
 
-      const { data } = await AuthApi.redefinirSenha(hash, formData);
-      console.log(data);
+      await AuthApi.redefinirSenha(hash, formData);
       navigate("/authentication/signin");
       enqueueSnackbar(
         "E-mail enviado com sucesso, verifique sua caixa de entrada.",

@@ -2,7 +2,7 @@ import * as React from "react";
 import { DataGrid, GridActionsCellItem, ptBR } from "@mui/x-data-grid";
 
 import { Create, Delete } from "@mui/icons-material";
-import { Chip } from "@mui/material";
+import { Backdrop, Chip, CircularProgress } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import userUserStore from "../../hooks/userUserStore";
 import PetsApi from "../../service/apis/pets";
@@ -22,11 +22,12 @@ export default function TabelaPets() {
     setSelectedId(null);
     setModalOpen(false);
   };
+
   const { user } = userUserStore();
 
-  const { data: allPets } = useQuery({
+  const { data: allPets, isLoading } = useQuery({
     queryKey: ["getAllPets"],
-    queryFn: async () => await PetsApi.getAllPetsByIdUsuario(user.usuario.id),
+    queryFn: () => PetsApi.getAllPetsByIdUsuario(user.usuario.id),
   });
 
   const StatusCell = (params) => {
@@ -153,6 +154,12 @@ export default function TabelaPets() {
         handleClose={handleCloseModal}
         id={selectedId}
       />
+      <Backdrop
+        open={isLoading}
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
+        <CircularProgress color="primary" />
+      </Backdrop>
     </div>
   );
 }

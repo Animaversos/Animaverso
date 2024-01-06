@@ -1,3 +1,4 @@
+import userUserStore from "../../../hooks/userUserStore";
 import api from "../../api";
 
 async function getAllPetsByIdUsuario(id) {
@@ -5,8 +6,24 @@ async function getAllPetsByIdUsuario(id) {
   return data;
 }
 
-async function save(formData) {
-  let { data } = await api.post(`/pets/`, formData);
+async function save(form) {
+  let formData = new FormData();
+  const { user } = userUserStore.getState();
+
+  const imageForm = form.image[0];
+  form["usuarioId"] = user.usuario.id;
+  form.peso = Number(form.peso);
+  delete form.image;
+
+  formData.append("file", imageForm);
+  formData.append("petInfo", JSON.stringify(form));
+
+  let { data } = await api.post(`/pets/`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
   return data;
 }
 

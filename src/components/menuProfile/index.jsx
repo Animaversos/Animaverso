@@ -91,6 +91,9 @@ export default function MenuProfile() {
         <MenuItem onClick={() => handleCloseAndNavigate("settings/profile")}>
           Perfil
         </MenuItem>
+        <MenuItem onClick={() => handleCloseAndNavigate("settings/address")}>
+          Endereço
+        </MenuItem>
         <MenuItem onClick={() => handleCloseAndNavigate("settings/pets")}>
           Pets
         </MenuItem>
