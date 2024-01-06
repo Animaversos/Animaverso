@@ -9,7 +9,6 @@ async function getAllPetsByIdUsuario(id) {
 async function getPetByUsuario(id) {
   const { user } = userUserStore.getState();
   let { data } = await api.get(`/pets/usuario/${user.usuario?.id}/${id}`);
-  console.log(data.nome);
   return data;
 }
 

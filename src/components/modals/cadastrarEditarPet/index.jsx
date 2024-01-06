@@ -22,12 +22,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import PetsApi from "../../../service/apis/pets";
 import { enqueueSnackbar } from "notistack";
 import UploadImagemPet from "../../uploadImagemPet";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import SkeletonLoadingCadastroEditaoPet from "../../skeletons/modalCadastroPet";
 
 const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, setValue, reset, control } = useForm();
+  const { register, handleSubmit, setValue, reset, control, watch } = useForm();
 
   const { data, isFetching: isLoadingPet } = useQuery({
     queryKey: ["getPetByUser"],
@@ -52,38 +52,59 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
     },
     onSuccess: (data) => {
       if (!data) return;
-      reset({ nome: "", peso: 0, observacao: "" });
       queryClient.invalidateQueries({ queryKey: ["getAllPets"] });
-      handleClose();
       enqueueSnackbar("Pet cadastrado com sucesso!", {
         variant: "success",
         autoHideDuration: 3000,
       });
+      resetAndClose();
     },
   });
+
+  const resetDados = useCallback(() => {
+    reset({
+      nome: "",
+      peso: 0,
+      observacao: "",
+      especie: "CACHORRO",
+      idade: "ZERO_A_SEIS_MESES",
+      porte: "PEQUENO",
+      genero: "MASCULINO",
+    });
+    setValue("especie", "CACHORRO");
+    setValue("idade", "ZERO_A_SEIS_MESES");
+    setValue("porte", "PEQUENO");
+    setValue("genero", "MASCULINO");
+  }, [reset, setValue]);
+
   useEffect(() => {
-    if (data) {
-      setValue("nome", data.nome || "");
-      setValue("peso", data.peso || 0);
-      setValue("especie", data.especie || "CACHORRO");
-      setValue("idade", data.idade || "ZERO_A_SEIS_MESES");
-      setValue("porte", data.porte || "PEQUENO");
-      setValue("genero", data.genero || "MASCULINO");
-      setValue("observacao", data.observacao || "");
+    if (isOpen) {
+      if (id && data) {
+        setValue("nome", data.nome || "");
+        setValue("peso", data.peso || 0);
+        setValue("especie", data.especie || "CACHORRO");
+        setValue("idade", data.idade || "ZERO_A_SEIS_MESES");
+        setValue("porte", data.porte || "PEQUENO");
+        setValue("genero", data.genero || "MASCULINO");
+        setValue("observacao", data.observacao || "");
+      } else {
+        resetDados(); // Se não houver 'id' ou 'data', resetamos os dados
+      }
     }
-  }, [data, setValue, isLoadingPet]);
+  }, [data, isOpen, setValue, resetDados, id]);
 
   const save = (data) => {
     mutate(data);
+  };
+  const resetAndClose = () => {
+    resetDados();
+    handleClose();
   };
 
   return (
     <>
       <Dialog
-        onClose={() => {
-          reset({ nome: "", peso: 0, observacao: "" });
-          handleClose();
-        }}
+        onClose={resetAndClose}
         aria-labelledby="customized-dialog-title"
         open={isOpen}
       >
@@ -92,10 +113,7 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
         </DialogTitle>
         <IconButton
           aria-label="close"
-          onClick={() => {
-            reset({ nome: "", peso: 0, observacao: "" });
-            handleClose();
-          }}
+          onClick={resetAndClose}
           sx={{
             position: "absolute",
             right: 8,
@@ -119,7 +137,7 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
                   <Grid item xs={12} md={12} lg={12}>
                     <TextField
                       fullWidth
-                      defaultValue={data.nome}
+                      defaultValue={data?.nome}
                       label="Nome"
                       size="small"
                       {...register("nome", { required: true })}
@@ -161,9 +179,7 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
                         defaultValue={data?.especie || "CACHORRO"}
                         id="especie"
                         label="Especie"
-                        onChange={(event) => {
-                          setValue("especie", event.target.value);
-                        }}
+                        value={watch("especie")}
                         {...register("especie")}
                       >
                         <MenuItem value={"CACHORRO"}>CACHORRO</MenuItem>
@@ -180,7 +196,10 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
                         id="idade"
                         label="Idade"
                         defaultValue={data?.idade || "ZERO_A_SEIS_MESES"}
-                        onChange={() => {}}
+                        onChange={(event) => {
+                          setValue("idade", event.target.value);
+                        }}
+                        value={watch("idade")}
                         {...register("idade")}
                       >
                         <MenuItem value={"ZERO_A_SEIS_MESES"}>
@@ -206,7 +225,10 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
                         id="porte"
                         defaultValue={data?.porte || "PEQUENO"}
                         label="Porte"
-                        onChange={() => {}}
+                        onChange={(event) => {
+                          setValue("porte", event.target.value);
+                        }}
+                        value={watch("porte")}
                         {...register("porte")}
                       >
                         <MenuItem value={"PEQUENO"}>Pequeno</MenuItem>
@@ -248,20 +270,14 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button
-            autoFocus
-            variant="outlined"
-            onClick={() => {
-              reset({ nome: "", peso: 0, observacao: "" });
-              handleClose();
-            }}
-          >
+          <Button autoFocus variant="outlined" onClick={resetAndClose}>
             FECHAR
           </Button>
           <Button
             autoFocus
             variant="contained"
             type="submit"
+            disabled={isPending || isLoading || isLoadingPet || false}
             onClick={handleSubmit(save)}
           >
             {id ? "EDITAR" : "CADASTRAR"}

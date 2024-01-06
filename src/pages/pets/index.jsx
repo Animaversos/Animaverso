@@ -55,11 +55,7 @@ export default function PetsPage() {
       </Box>
       <Divider />
       <TabelaPets />
-      <CadastrarEditarPet
-        isOpen={modalOpen}
-        handleClose={handleCloseModal}
-        id={0}
-      />
+      <CadastrarEditarPet isOpen={modalOpen} handleClose={handleCloseModal} />
     </Box>
   );
 }
