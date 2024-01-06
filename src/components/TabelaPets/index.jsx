@@ -3,41 +3,69 @@ import { DataGrid, GridActionsCellItem, ptBR } from "@mui/x-data-grid";
 
 import { Create, Delete } from "@mui/icons-material";
 import { Chip } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import userUserStore from "../../hooks/userUserStore";
+import PetsApi from "../../service/apis/pets";
+import CadastrarEditarPet from "../modals/cadastrarEditarPet";
+import { useState } from "react";
 
 export default function TabelaPets() {
-  const initialRows = [
-    {
-      id: 1,
-      nome: "Bolota",
-      peso: 2,
-      especie: "Cachorro",
-      porte: "Pequeno",
-      status: "Adotado",
-    },
-  ];
-  const [rows, setRows] = React.useState(initialRows);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
-  const deleteUser = React.useCallback(
-    (id) => () => {
-      setTimeout(() => {
-        setRows((prevRows) => prevRows.filter((row) => row.id !== id));
-      });
-    },
-    []
-  );
+  const handleOpenModal = (id) => {
+    setSelectedId(id);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedId(null);
+    setModalOpen(false);
+  };
+  const { user } = userUserStore();
+
+  const { data: allPets } = useQuery({
+    queryKey: ["getAllPets"],
+    queryFn: async () => await PetsApi.getAllPetsByIdUsuario(user.usuario.id),
+  });
 
   const StatusCell = (params) => {
     const status = params.value;
 
-    // Personalize a cor da label com base no valor do status
-    const labelColor =
-      status === "Adotado"
-        ? "success"
-        : status === "Em adoção"
-        ? "info"
-        : "warning";
+    const labelStatus = {
+      SIM: "Adotado",
+      NAO: "Não Adotado",
+    };
+    const labelColor = {
+      SIM: "success",
+      NAO: "error",
+    };
+    return (
+      <Chip
+        label={labelStatus[status] || "Não informado"}
+        color={labelColor[status] || "default"}
+      />
+    );
+  };
 
-    return <Chip label={status} color={labelColor} />;
+  const EspecieCell = (params) => {
+    const especie = params.value;
+    const LabelsEspecies = {
+      CACHORRO: "Cachorro",
+      GATO: "Gato",
+      OUTROS: "Outros",
+    };
+    return LabelsEspecies[especie] || "Não informado";
+  };
+
+  const PorteCell = (params) => {
+    const porte = params.value;
+    const LabelsPortes = {
+      PEQUENO: "Pequeno",
+      MEDIO: "Médio",
+      GRANDE: "Grande",
+    };
+    return LabelsPortes[porte] || "Não informado";
   };
 
   const columns = React.useMemo(
@@ -47,15 +75,28 @@ export default function TabelaPets() {
         headerName: "Nome",
         type: "string",
         width: 300,
-        flex: 1,
+        flex: 0.7,
       },
-      { field: "especie", headerName: "Especie", type: "string", flex: 0.5 },
-      { field: "porte", headerName: "Porte", type: "string", flex: 0.3 },
-      { field: "peso", headerName: "Peso (Kg)", type: "number", flex: 0.3 },
       {
-        field: "status",
-        headerName: "Status",
+        field: "especie",
+        headerName: "Especie",
         type: "string",
+        flex: 0.2,
+        renderCell: EspecieCell,
+      },
+      {
+        field: "porte",
+        headerName: "Porte",
+        type: "string",
+        flex: 0.2,
+        renderCell: PorteCell,
+      },
+      { field: "peso", headerName: "Peso (Kg)", type: "number", flex: 0.2 },
+      {
+        field: "adotado",
+        headerName: "Adotado ?",
+        type: "string",
+        flex: 0.3,
         renderCell: StatusCell,
       },
       {
@@ -71,26 +112,28 @@ export default function TabelaPets() {
             icon={<Create />}
             label="Editar"
             onClick={() => {
-              console.log(params);
+              handleOpenModal(params.id);
             }}
           />,
           <GridActionsCellItem
             key={2}
             icon={<Delete />}
             label="Deletar"
-            onClick={deleteUser(params.id)}
+            onClick={() => {
+              console.log(params.id);
+            }}
           />,
         ],
       },
     ],
-    [deleteUser]
+    []
   );
 
   return (
     <div style={{ width: "100%" }}>
       <DataGrid
         columns={columns}
-        rows={rows}
+        rows={allPets || []}
         disableColumnFilter
         disableColumnMenu
         autoHeight
@@ -104,6 +147,11 @@ export default function TabelaPets() {
           },
         }}
         pageSizeOptions={[5, 10]}
+      />
+      <CadastrarEditarPet
+        isOpen={modalOpen}
+        handleClose={handleCloseModal}
+        id={selectedId}
       />
     </div>
   );
