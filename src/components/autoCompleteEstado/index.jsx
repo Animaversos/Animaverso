@@ -5,7 +5,7 @@ import api from "../../service/api";
 import { useQuery } from "@tanstack/react-query";
 import { any } from "prop-types";
 
-const AutocompleteEstado = ({ register, setValue }) => {
+const AutocompleteEstado = ({ register, setValue, defaultValue }) => {
   const [options, setOptions] = useState([]);
   const handleInputChange = async () => {
     const { data } = await api.get(
@@ -23,6 +23,7 @@ const AutocompleteEstado = ({ register, setValue }) => {
   return (
     <Autocomplete
       id="autocomplete-estado"
+      defaultValue={defaultValue}
       options={options}
       getOptionLabel={(option) => option.label}
       noOptionsText={"Nenhum estado encontrado"}
@@ -42,6 +43,7 @@ const AutocompleteEstado = ({ register, setValue }) => {
 AutocompleteEstado.propTypes = {
   register: any,
   setValue: any,
+  defaultValue: any,
 };
 
 export default AutocompleteEstado;

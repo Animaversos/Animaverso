@@ -5,7 +5,13 @@ import { useQuery } from "@tanstack/react-query";
 import { any, object } from "prop-types";
 import { useEffect, useState } from "react";
 
-const AutocompleteCidade = ({ register, setValue, estado }) => {
+const AutocompleteCidade = ({
+  register,
+  setValue,
+  estado,
+  defaultValue,
+  defaultValueEstado,
+}) => {
   const [cidade, setCidade] = useState({ id: 0, label: "" });
   const { data: cidades, isLoading } = useQuery({
     queryKey: ["getCidades", estado],
@@ -14,7 +20,10 @@ const AutocompleteCidade = ({ register, setValue, estado }) => {
         const { data } = await api.get(
           `http://localhost:3000/api/enderecos/cidades/${estado.uf}`
         );
-
+        if (defaultValue && defaultValueEstado?.id === estado?.id) {
+          setCidade(defaultValue);
+          setValue("cidade", defaultValue);
+        }
         return data.map((cidade) => {
           return { id: cidade.id, label: cidade.nome };
         });
@@ -42,6 +51,7 @@ const AutocompleteCidade = ({ register, setValue, estado }) => {
     <Autocomplete
       options={cidades || []}
       value={cidade}
+      defaultValue={defaultValue}
       loading={isLoading}
       getOptionLabel={(option) => option.label}
       noOptionsText={"Nenhuma cidade encontrado"}
@@ -63,6 +73,8 @@ AutocompleteCidade.propTypes = {
   register: any,
   setValue: any,
   estado: object,
+  defaultValue: any,
+  defaultValueEstado: any,
 };
 
 export default AutocompleteCidade;

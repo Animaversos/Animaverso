@@ -1,6 +1,8 @@
 import {
+  Backdrop,
   Box,
   Button,
+  CircularProgress,
   Divider,
   Grid,
   TextField,
@@ -14,20 +16,24 @@ import { enqueueSnackbar } from "notistack";
 import EnderecoApi from "../../service/apis/enderecos";
 import api from "../../service/api";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 export default function EnderecoPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = userUserStore();
   const { register, handleSubmit, setValue, watch } = useForm();
   const estadoWatch = watch("estado");
 
-  const { data: usuarioEndereco } = useQuery({
+  const { data: usuarioEndereco, isPending } = useQuery({
     queryKey: ["getCidades", user.usuario?.id],
     queryFn: async () => {
       if (user.usuario?.id) {
         const { data } = await api.get(
           `http://localhost:3000/api/enderecos/usuario/${user.usuario?.id}`
         );
-
+        Object.keys(data).forEach((key) => {
+          setValue(key, data[key]);
+        });
         return data;
       }
       return {};
@@ -44,6 +50,11 @@ export default function EnderecoPage() {
       numero: data.numero,
       id_usuario: user.usuario?.id,
     };
+
+    if (usuarioEndereco?.id) {
+      enderecoDto.id = usuarioEndereco.id;
+    }
+
     if (!enderecoDto.id_estado) {
       enqueueSnackbar("O Estado não foi informado.", {
         variant: "warning",
@@ -60,21 +71,36 @@ export default function EnderecoPage() {
     }
 
     try {
-      const response = await EnderecoApi.save(enderecoDto);
+      setIsLoading(true);
+      let response;
+
+      if (!usuarioEndereco?.id) {
+        response = await EnderecoApi.save(enderecoDto);
+      }
+
+      if (usuarioEndereco?.id) {
+        response = await EnderecoApi.update(enderecoDto);
+      }
 
       if (response) {
-        enqueueSnackbar("Endereço cadastrado com sucesso.", {
+        enqueueSnackbar(`Endereço ${isUpdateText} com sucesso.`, {
           variant: "success",
           autoHideDuration: 3000,
         });
       }
+      setIsLoading(false);
     } catch (error) {
       enqueueSnackbar(error.response?.data?.message, {
         variant: "error",
         autoHideDuration: 3000,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const isUpdateText = usuarioEndereco?.id ? "atualizado" : "cadastrado";
+
   const handleInputChange = (event) => {
     const inputValue = event.target.value.replace(/[^0-9]/g, ""); // Remove caracteres não numéricos
     setValue("numero", inputValue);
@@ -110,6 +136,7 @@ export default function EnderecoPage() {
                 register={register("estado")}
                 registerCidade={register("cidade")}
                 setValue={setValue}
+                defaultValue={usuarioEndereco?.estado}
               />
             </Grid>
             <Grid item xs={6}>
@@ -117,6 +144,8 @@ export default function EnderecoPage() {
                 register={register("cidade")}
                 setValue={setValue}
                 estado={estadoWatch}
+                defaultValue={usuarioEndereco?.cidade}
+                defaultValueEstado={usuarioEndereco?.estado}
               />
             </Grid>
 
@@ -176,6 +205,12 @@ export default function EnderecoPage() {
           </Button>
         </Box>
       </Box>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isPending || isLoading}
+      >
+        <CircularProgress color="primary" />
+      </Backdrop>
     </>
   );
 }
