@@ -174,7 +174,7 @@ export default function TabelaPets() {
         id={selectedId}
       />
       <Backdrop
-        open={isLoading || isPendingDelete || isLoadingPet}
+        open={isLoading || isPendingDelete || isLoadingPet || false}
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <CircularProgress color="primary" />

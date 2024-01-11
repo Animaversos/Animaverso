@@ -24,7 +24,11 @@ export default function EnderecoPage() {
   const { register, handleSubmit, setValue, watch } = useForm();
   const estadoWatch = watch("estado");
 
-  const { data: usuarioEndereco, isPending } = useQuery({
+  const {
+    data: usuarioEndereco,
+    isPending,
+    isLoading: loadingUserData,
+  } = useQuery({
     queryKey: ["getEnderecoUsuario", user.usuario?.id],
     queryFn: async () => {
       if (user.usuario?.id) {
@@ -105,6 +109,10 @@ export default function EnderecoPage() {
     const inputValue = event.target.value.replace(/[^0-9]/g, ""); // Remove caracteres não numéricos
     setValue("numero", inputValue);
   };
+
+  if (loadingUserData) {
+    return "Carregando...";
+  }
 
   return (
     <>
