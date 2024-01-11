@@ -33,4 +33,34 @@ async function save(form) {
   return data;
 }
 
-export default { getAllPetsByIdUsuario, save, getPetByUsuario };
+async function update(form) {
+  let formData = new FormData();
+  console.log(form);
+  const idPet = form.id;
+
+  if (form.image || form.image.length >= 0) {
+    const imageForm = form.image[0];
+    formData.append("file", imageForm);
+    delete form.file_original_name;
+    delete form.url_image;
+  }
+
+  delete form.id;
+  delete form.image;
+  form.peso = Number(form.peso);
+  formData.append("petInfo", JSON.stringify(form));
+
+  let { data } = await api.post(`/pets/${idPet}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return data;
+}
+
+async function remove(id) {
+  return await api.delete(`/pets/${id}`);
+}
+
+export default { getAllPetsByIdUsuario, save, getPetByUsuario, update, remove };

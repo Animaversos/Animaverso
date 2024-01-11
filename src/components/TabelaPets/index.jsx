@@ -3,15 +3,17 @@ import { DataGrid, GridActionsCellItem, ptBR } from "@mui/x-data-grid";
 
 import { Create, Delete } from "@mui/icons-material";
 import { Backdrop, Chip, CircularProgress } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import userUserStore from "../../hooks/userUserStore";
 import PetsApi from "../../service/apis/pets";
 import CadastrarEditarPet from "../modals/cadastrarEditarPet";
 import { useState } from "react";
+import { enqueueSnackbar } from "notistack";
 
 export default function TabelaPets() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const queryClient = useQueryClient();
 
   const handleOpenModal = (id) => {
     setSelectedId(id);
@@ -30,6 +32,23 @@ export default function TabelaPets() {
     queryFn: () => PetsApi.getAllPetsByIdUsuario(user.usuario.id),
   });
 
+  const {
+    mutate: deletePet,
+    isPending: isPendingDelete,
+    isLoading: isLoadingPet,
+  } = useMutation({
+    mutationFn: async (id) => {
+      return await PetsApi.remove(id);
+    },
+    onSuccess: (data) => {
+      if (!data) return;
+      queryClient.invalidateQueries({ queryKey: ["getAllPets"] });
+      enqueueSnackbar("Aumiguinho ou miauguinho removido :/ ", {
+        variant: "info",
+        autoHideDuration: 3000,
+      });
+    },
+  });
   const StatusCell = (params) => {
     const status = params.value;
 
@@ -121,13 +140,13 @@ export default function TabelaPets() {
             icon={<Delete />}
             label="Deletar"
             onClick={() => {
-              console.log(params.id);
+              deletePet(params.id);
             }}
           />,
         ],
       },
     ],
-    []
+    [deletePet]
   );
 
   return (
@@ -155,7 +174,7 @@ export default function TabelaPets() {
         id={selectedId}
       />
       <Backdrop
-        open={isLoading}
+        open={isLoading || isPendingDelete || isLoadingPet}
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <CircularProgress color="primary" />

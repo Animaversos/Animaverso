@@ -1,8 +1,8 @@
 import { CloudUpload, Delete } from "@mui/icons-material";
 import { Box, Button, IconButton } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/system";
-import { func } from "prop-types";
+import { func, string } from "prop-types";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -57,18 +57,25 @@ const StyledIconButton = styled(IconButton)({
   },
 });
 
-const UploadImagemPet = ({ register }) => {
+const UploadImagemPet = ({ register, url_image }) => {
   const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(url_image || "");
   const [isHovered, setIsHovered] = useState(false);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
+    setPreview(URL.createObjectURL(selectedFile));
   };
 
   const removeFile = () => {
     setFile(null);
+    setPreview(null);
   };
+
+  useEffect(() => {
+    setPreview(url_image || "");
+  }, [url_image]);
 
   return (
     <Box
@@ -79,7 +86,7 @@ const UploadImagemPet = ({ register }) => {
         height: "202px",
       }}
     >
-      {!file ? (
+      {!file && !preview ? (
         <Box
           sx={{
             display: "grid",
@@ -113,11 +120,7 @@ const UploadImagemPet = ({ register }) => {
             setIsHovered((prev) => !prev);
           }}
         >
-          <Image
-            src={URL.createObjectURL(file)}
-            alt="File Preview"
-            onClick={removeFile}
-          />
+          <Image src={preview} alt="File Preview" onClick={removeFile} />
 
           {isHovered && (
             <Overlay>
@@ -134,5 +137,6 @@ const UploadImagemPet = ({ register }) => {
 
 UploadImagemPet.propTypes = {
   register: func.isRequired,
+  url_image: string,
 };
 export default UploadImagemPet;

@@ -22,18 +22,19 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import PetsApi from "../../../service/apis/pets";
 import { enqueueSnackbar } from "notistack";
 import UploadImagemPet from "../../uploadImagemPet";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import SkeletonLoadingCadastroEditaoPet from "../../skeletons/modalCadastroPet";
 
 const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
   const queryClient = useQueryClient();
   const { register, handleSubmit, setValue, reset, control, watch } = useForm();
-
-  const { data, isFetching: isLoadingPet } = useQuery({
+  const dataRef = useRef(null);
+  let { data, isFetching: isLoadingPet } = useQuery({
     queryKey: ["getPetByUser"],
     queryFn: async () => {
       if (id) {
-        return await PetsApi.getPetByUsuario(id);
+        dataRef.current = await PetsApi.getPetByUsuario(id);
+        return dataRef.current;
       }
     },
     enabled: Boolean(id),
@@ -60,6 +61,25 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
       resetAndClose();
     },
   });
+  const {
+    mutate: updatePet,
+    isPending: isPendingUpdate,
+    isLoading: isLoadingUpdate,
+  } = useMutation({
+    mutationFn: async (form) => {
+      form["id"] = id;
+      return await PetsApi.update(form);
+    },
+    onSuccess: (data) => {
+      if (!data) return;
+      queryClient.invalidateQueries({ queryKey: ["getAllPets"] });
+      enqueueSnackbar("Pet atualizado com sucesso!", {
+        variant: "success",
+        autoHideDuration: 3000,
+      });
+      resetAndClose();
+    },
+  });
 
   const resetDados = useCallback(() => {
     reset({
@@ -70,11 +90,13 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
       idade: "ZERO_A_SEIS_MESES",
       porte: "PEQUENO",
       genero: "MASCULINO",
+      image: "",
     });
     setValue("especie", "CACHORRO");
     setValue("idade", "ZERO_A_SEIS_MESES");
     setValue("porte", "PEQUENO");
     setValue("genero", "MASCULINO");
+    setValue("image", "");
   }, [reset, setValue]);
 
   useEffect(() => {
@@ -88,6 +110,7 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
         setValue("genero", data.genero || "MASCULINO");
         setValue("observacao", data.observacao || "");
       } else {
+        dataRef.current = null;
         resetDados(); // Se não houver 'id' ou 'data', resetamos os dados
       }
     }
@@ -95,6 +118,9 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
 
   const save = (data) => {
     mutate(data);
+  };
+  const update = (data) => {
+    updatePet(data);
   };
   const resetAndClose = () => {
     resetDados();
@@ -129,7 +155,10 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
           ) : (
             <Grid container>
               <Grid item xs={12} md={5} lg={5}>
-                <UploadImagemPet register={register} />
+                <UploadImagemPet
+                  register={register}
+                  url_image={dataRef.current?.url_image}
+                />
               </Grid>
 
               <Grid item xs={12} md={7} lg={7} rowSpacing={2}>
@@ -146,7 +175,7 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
                   <Grid item xs={4} md={4} lg={4}>
                     <Controller
                       name="peso"
-                      defaultValue={data?.peso || 0}
+                      defaultValue={dataRef.current?.peso || 0}
                       control={control}
                       rules={{ required: true, minLength: 0 }}
                       render={({ field }) => (
@@ -176,7 +205,7 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
                       <InputLabel id="labelEspecie">Especie</InputLabel>
                       <Select
                         labelId="labelEspecie"
-                        defaultValue={data?.especie || "CACHORRO"}
+                        defaultValue={dataRef.current?.especie || "CACHORRO"}
                         id="especie"
                         label="Especie"
                         value={watch("especie")}
@@ -195,7 +224,9 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
                         labelId="labelIdade"
                         id="idade"
                         label="Idade"
-                        defaultValue={data?.idade || "ZERO_A_SEIS_MESES"}
+                        defaultValue={
+                          dataRef.current?.idade || "ZERO_A_SEIS_MESES"
+                        }
                         onChange={(event) => {
                           setValue("idade", event.target.value);
                         }}
@@ -223,7 +254,7 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
                       <Select
                         labelId="labelPorte"
                         id="porte"
-                        defaultValue={data?.porte || "PEQUENO"}
+                        defaultValue={dataRef.current?.porte || "PEQUENO"}
                         label="Porte"
                         onChange={(event) => {
                           setValue("porte", event.target.value);
@@ -244,8 +275,10 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
                         labelId="labelGenero"
                         id="genero"
                         label="Genero"
-                        defaultValue={"MASCULINO"}
-                        onChange={() => {}}
+                        defaultValue={dataRef.current?.genero || "MASCULINO"}
+                        onChange={(event) => {
+                          setValue("genero", event.target.value);
+                        }}
                         {...register("genero")}
                       >
                         <MenuItem value={"MASCULINO"}>Masculino</MenuItem>
@@ -261,6 +294,7 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
                   fullWidth
                   id="obsPet"
                   label="Observações"
+                  defaultValue={dataRef.current?.observacao || ""}
                   multiline
                   rows={4}
                   {...register("observacao")}
@@ -277,8 +311,15 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
             autoFocus
             variant="contained"
             type="submit"
-            disabled={isPending || isLoading || isLoadingPet || false}
-            onClick={handleSubmit(save)}
+            disabled={
+              isPending ||
+              isLoading ||
+              isPendingUpdate ||
+              isLoadingUpdate ||
+              isLoadingPet ||
+              false
+            }
+            onClick={id ? handleSubmit(update) : handleSubmit(save)}
           >
             {id ? "EDITAR" : "CADASTRAR"}
           </Button>
@@ -286,7 +327,9 @@ const CadastrarEditarPet = ({ isOpen, handleClose, id }) => {
       </Dialog>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 999 }}
-        open={isPending || isLoading || false}
+        open={
+          isPending || isLoading || isPendingUpdate || isLoadingUpdate || false
+        }
       >
         <CircularProgress color="primary" />
       </Backdrop>

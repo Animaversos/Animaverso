@@ -15,7 +15,7 @@ const AutocompleteEstado = ({ register, setValue, defaultValue }) => {
     return data;
   };
 
-  useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["getEstados"],
     queryFn: handleInputChange,
   });
@@ -24,7 +24,8 @@ const AutocompleteEstado = ({ register, setValue, defaultValue }) => {
     <Autocomplete
       id="autocomplete-estado"
       defaultValue={defaultValue}
-      options={options}
+      options={options || []}
+      loading={isLoading}
       getOptionLabel={(option) => option.label}
       noOptionsText={"Nenhum estado encontrado"}
       getOptionSelected={(option, value) => option.id === value.id}

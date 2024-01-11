@@ -31,6 +31,7 @@ const AutocompleteCidade = ({
       return [];
     },
   });
+
   useEffect(() => {
     if (!cidades) return;
 

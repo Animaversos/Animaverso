@@ -25,7 +25,7 @@ export default function EnderecoPage() {
   const estadoWatch = watch("estado");
 
   const { data: usuarioEndereco, isPending } = useQuery({
-    queryKey: ["getCidades", user.usuario?.id],
+    queryKey: ["getEnderecoUsuario", user.usuario?.id],
     queryFn: async () => {
       if (user.usuario?.id) {
         const { data } = await api.get(
