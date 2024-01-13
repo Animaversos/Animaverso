@@ -63,4 +63,15 @@ async function remove(id) {
   return await api.delete(`/pets/${id}`);
 }
 
-export default { getAllPetsByIdUsuario, save, getPetByUsuario, update, remove };
+async function adota(id) {
+  return await api.patch(`/pets/adotou/${id}`);
+}
+
+export default {
+  getAllPetsByIdUsuario,
+  save,
+  getPetByUsuario,
+  update,
+  remove,
+  adota,
+};

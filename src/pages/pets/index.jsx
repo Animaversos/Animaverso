@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import TabelaPets from "../../components/TabelaPets";
 import { useState } from "react";
 import CadastrarEditarPet from "../../components/modals/cadastrarEditarPet";
+import TabelaInteressados from "../../components/TabelaInteressados";
 
 export default function PetsPage() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -18,20 +19,14 @@ export default function PetsPage() {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-around",
-        height: "100%",
-      }}
-    >
+    <Box sx={{ width: "98%" }}>
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           flexDirection: "row",
+          mb: 2,
         }}
       >
         <Box>
@@ -53,9 +48,20 @@ export default function PetsPage() {
           </Button>
         </Box>
       </Box>
-      <Divider />
+      <Divider sx={{ mb: 2 }} />
       <TabelaPets />
       <CadastrarEditarPet isOpen={modalOpen} handleClose={handleCloseModal} />
+      <Box mt={2} mb={2}>
+        <Typography variant="h5" fontWeight={"bold"}>
+          Pessoas interessadas
+        </Typography>
+        <Typography variant="p">
+          Aqui voce podera ver as pessoas interessadas em seus aumiguinhos e
+          miauguinhos.
+        </Typography>
+      </Box>
+      <Divider sx={{ mb: 2 }} />
+      <TabelaInteressados />
     </Box>
   );
 }
