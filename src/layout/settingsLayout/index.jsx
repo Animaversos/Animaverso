@@ -107,7 +107,7 @@ export default function SettingsLayout() {
                 Encontrar pets
               </Link>
               <Link to={"/"} style={{ textDecoration: "none", color: "black" }}>
-                Parceiros
+                Cupom
               </Link>
               <MenuProfile />
             </Box>

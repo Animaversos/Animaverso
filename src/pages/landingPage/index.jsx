@@ -46,7 +46,13 @@ export default function LandingPage() {
               to={"/pet"}
               style={{ textDecoration: "none", color: "black" }}
             >
-              Pets
+              Encontrar Pets
+            </Link>
+            <Link
+              to={"/pet"}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              Cupom
             </Link>
             <Button
               variant="outlined"

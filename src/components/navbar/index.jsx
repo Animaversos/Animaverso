@@ -66,7 +66,7 @@ export default function CustomNavbar({ handleDrawerToggle, isSemDrawer }) {
               Encontrar pets
             </Link>
             <Link to={"/"} style={{ textDecoration: "none", color: "black" }}>
-              Parceiros
+              Cupom
             </Link>
             <MenuProfile />
           </Box>

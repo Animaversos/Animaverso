@@ -67,6 +67,10 @@ async function adota(id) {
   return await api.patch(`/pets/adotou/${id}`);
 }
 
+async function search(filters) {
+  return await api.get(`/pets?${filters}`);
+}
+
 export default {
   getAllPetsByIdUsuario,
   save,
@@ -74,4 +78,5 @@ export default {
   update,
   remove,
   adota,
+  search,
 };

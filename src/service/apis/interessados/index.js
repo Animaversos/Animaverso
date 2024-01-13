@@ -38,4 +38,13 @@ async function remove(id) {
   return await api.delete(`/interessados/${id}`);
 }
 
-export default { save, findAll, remove, findAllMeusInteresses };
+async function interesse(id) {
+  const { user } = userUserStore.getState();
+
+  return await api.post(`/interessados`, {
+    id_pet: id,
+    id_usuario: user.usuario?.id,
+  });
+}
+
+export default { save, findAll, remove, findAllMeusInteresses, interesse };
