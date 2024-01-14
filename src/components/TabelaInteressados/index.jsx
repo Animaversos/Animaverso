@@ -25,6 +25,7 @@ export default function TabelaInteressados() {
     onSuccess: (data) => {
       if (!data) return;
       queryClient.invalidateQueries({ queryKey: ["getAllInteressados"] });
+      queryClient.invalidateQueries({ queryKey: ["getAllPets"] });
       enqueueSnackbar("Pet adotado com sucesso!", {
         variant: "success",
         autoHideDuration: 3000,

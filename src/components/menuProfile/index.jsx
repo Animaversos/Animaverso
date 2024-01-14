@@ -71,20 +71,27 @@ export default function MenuProfile() {
           onClick={() => handleCloseAndNavigate("settings/profile")}
           sx={{
             width: "100%",
-            maxWidth: "200px",
           }}
         >
-          <Box
-            sx={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold" }}>
+          <Box>
+            <Typography
+              sx={{
+                fontWeight: "bold",
+              }}
+            >
               {user.usuario.nome}
             </Typography>
-            <Typography sx={{}}>{user.usuario.email}</Typography>
+            <Typography
+              sx={{
+                maxWidth: "190px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                fontSize: ".9rem",
+              }}
+            >
+              {user.usuario.email}
+            </Typography>
           </Box>
         </MenuItem>
         <Divider />
@@ -98,7 +105,7 @@ export default function MenuProfile() {
           Pets
         </MenuItem>
         <MenuItem onClick={() => handleCloseAndNavigate("settings/interested")}>
-          Interesses
+          Meus Interesses
         </MenuItem>
         <Divider />
         <MenuItem

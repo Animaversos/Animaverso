@@ -43,7 +43,7 @@ const itensNavbar = [
   {
     id: 3,
     path: "settings/interested",
-    text: "Interessados",
+    text: "Meus Interesses",
     icon: <Favorite />,
   },
 ];
