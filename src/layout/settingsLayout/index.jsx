@@ -103,7 +103,10 @@ export default function SettingsLayout() {
               </Typography>
             </Link>
             <Box sx={{ display: "flex", placeItems: "center", gap: 4 }}>
-              <Link to={"/"} style={{ textDecoration: "none", color: "black" }}>
+              <Link
+                to={"/pet"}
+                style={{ textDecoration: "none", color: "black" }}
+              >
                 Encontrar pets
               </Link>
               <Link to={"/"} style={{ textDecoration: "none", color: "black" }}>

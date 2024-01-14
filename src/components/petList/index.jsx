@@ -28,7 +28,8 @@ const parseEspecie = (params) => {
 };
 
 const PetList = () => {
-  const { petsFiltrados, isLoading } = usePetStore();
+  const { petsFiltrados, isLoading, addPageNumber, noMorePages } =
+    usePetStore();
 
   const { mutate: interessePet } = useMutation({
     mutationFn: async (idPet) => {
@@ -158,6 +159,15 @@ const PetList = () => {
           )}
         </Grid>
       </Container>
+      <Button
+        variant="container"
+        onClick={() => addPageNumber()}
+        sx={{
+          display: `${noMorePages ? "none" : "block"}`,
+        }}
+      >
+        Carregar mais
+      </Button>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isLoading}

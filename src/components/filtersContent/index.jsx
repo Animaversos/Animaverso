@@ -14,26 +14,59 @@ import { useState } from "react";
 import AutocompleteCidadeFiltro from "../autoCompleteCidadeFiltro/index.jsx";
 import PetsApi from "../../service/apis/pets";
 import usePetStore from "../../hooks/usePetStore.js";
+import { useQuery } from "@tanstack/react-query";
 
 export default function FiltersContent() {
-  const { setPets, setIsLoading } = usePetStore();
+  const {
+    setPets,
+    setIsLoading,
+    pageNumber,
+    petsFiltrados,
+    setNoMorePages,
+    filtro,
+    setFiltro,
+    resetPageNumber,
+    delPets,
+  } = usePetStore();
   const [checkedValuesPorte, setCheckedValuesPorte] = useState([]);
   const [checkedValuesGenero, setCheckedValuesGenero] = useState([]);
   const [checkedValuesEspecie, setCheckedValuesEspecie] = useState([]);
   const [cidade, setCidade] = useState(null);
 
-  const findPets = async () => {
-    try {
-      setIsLoading(true);
-      const queryString = generateQueryString();
-      const { data } = await PetsApi.search(queryString);
-      setPets(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { refetch } = useQuery({
+    queryKey: ["petsSearch", pageNumber],
+    queryFn: async () => {
+      try {
+        setIsLoading(true);
+        const queryString = generateQueryString();
+        const { data } = await PetsApi.search(queryString);
+        if (data == null || data.length == 0 || data.length < 10) {
+          setNoMorePages(true);
+          resetPageNumber();
+        }
+
+        if (data != null) {
+          const newData = data.filter((newItem) => {
+            return !petsFiltrados.some(
+              (existingItem) =>
+                existingItem.id === newItem.id && verificaSeEMesmoFiltro()
+            );
+          });
+          setPets(
+            verificaSeEMesmoFiltro()
+              ? [...petsFiltrados, ...newData]
+              : [...newData]
+          );
+        }
+
+        return data;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+  });
 
   const handleCheckboxChangePorte = (value) => {
     const currentIndex = checkedValuesPorte.indexOf(value);
@@ -71,11 +104,28 @@ export default function FiltersContent() {
     setCheckedValuesGenero(newCheckedValues);
   };
 
+  const verificaSeEMesmoFiltro = () => {
+    if (filtro == null) {
+      return false;
+    }
+
+    const querySemPage = generateQueryString().replace(
+      `page=${pageNumber}&`,
+      ""
+    );
+    const filtroSemPage = filtro
+      .replace(`page=${pageNumber}&`, "")
+      .replace(`page=${pageNumber - 1}&`, "")
+      .replace(`page=${pageNumber + 1}&`, "");
+
+    return querySemPage === filtroSemPage;
+  };
+
   const generateQueryString = () => {
-    var queryString = "";
+    var queryString = `page=${pageNumber}&`;
 
     if (checkedValuesPorte.length != 0) {
-      queryString = `porte=${checkedValuesPorte.join(",")}&`;
+      queryString = `${queryString}porte=${checkedValuesPorte.join(",")}&`;
     }
 
     if (checkedValuesEspecie.length != 0) {
@@ -90,10 +140,6 @@ export default function FiltersContent() {
       queryString = `${queryString}cidade=${cidade.id}&`;
     }
     return queryString;
-  };
-
-  const handleButtonClick = () => {
-    findPets();
   };
 
   return (
@@ -274,7 +320,13 @@ export default function FiltersContent() {
             size="small"
             fullWidth
             onClick={() => {
-              handleButtonClick();
+              if (!verificaSeEMesmoFiltro()) {
+                resetPageNumber();
+                delPets();
+                setNoMorePages(false);
+              }
+              setFiltro(generateQueryString());
+              refetch();
             }}
           >
             Buscar
