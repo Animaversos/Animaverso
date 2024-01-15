@@ -19,8 +19,8 @@ export default function TabelaInteressados() {
     isPending: isPendingUpdate,
     isLoading: isLoadingUpdate,
   } = useMutation({
-    mutationFn: async (idPet) => {
-      return await PetsApi.adota(idPet);
+    mutationFn: async (data) => {
+      return await PetsApi.adota(data.id, data.id_pet, data.id_usuario);
     },
     onSuccess: (data) => {
       if (!data) return;
@@ -74,8 +74,9 @@ export default function TabelaInteressados() {
             disabled={params.row.pet.adotado === "SIM"}
             defaultChecked={params.row.pet.adotado === "SIM"}
             onChange={(event) => {
+              console.log(params.row);
               if (event.target.checked) {
-                mutate(params.row.id_pet);
+                mutate(params.row);
               }
             }}
             inputProps={{

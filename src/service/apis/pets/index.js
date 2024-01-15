@@ -35,7 +35,6 @@ async function save(form) {
 
 async function update(form) {
   let formData = new FormData();
-  console.log(form);
   const idPet = form.id;
 
   if (form.image || form.image.length >= 0) {
@@ -63,8 +62,11 @@ async function remove(id) {
   return await api.delete(`/pets/${id}`);
 }
 
-async function adota(id) {
-  return await api.patch(`/pets/adotou/${id}`);
+async function adota(id, id_pet, id_usuario) {
+  return await api.post(`/pets/adotou/${id}`, {
+    id_pet: id_pet,
+    id_usuario: id_usuario,
+  });
 }
 
 async function search(filters) {
