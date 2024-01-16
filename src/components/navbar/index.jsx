@@ -65,7 +65,10 @@ export default function CustomNavbar({ handleDrawerToggle, isSemDrawer }) {
             >
               Encontrar pets
             </Link>
-            <Link to={"/"} style={{ textDecoration: "none", color: "black" }}>
+            <Link
+              to={"/authentication/cupom"}
+              style={{ textDecoration: "none", color: "black" }}
+            >
               Cupom
             </Link>
             <MenuProfile />

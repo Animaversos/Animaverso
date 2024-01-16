@@ -155,7 +155,18 @@ const PetList = () => {
           {pets.length > 0 ? (
             pets
           ) : (
-            <Typography>Nenhum pet encontrado</Typography>
+            <Box
+              sx={{
+                display: "grid",
+                placeContent: "center",
+                width: "100%",
+                height: "calc(100vh - 76px)",
+              }}
+            >
+              <Typography>
+                Nenhum Aumiguinho ou Miauguinho encontrado :/{" "}
+              </Typography>
+            </Box>
           )}
         </Grid>
       </Container>

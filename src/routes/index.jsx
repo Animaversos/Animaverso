@@ -12,10 +12,13 @@ import AuthenticationLayout from "../layout/authenticationLayout/index.jsx";
 import RedefinirSenhaPage from "../pages/redefinirSenhaPage/index.jsx";
 import CadastroUsuarioPage from "../pages/cadastroUsuario/index.jsx";
 import EnderecoPage from "../pages/endereco/index.jsx";
+import CupomPage from "../pages/cupomPage/index.jsx";
+import NotFoundPage from "../pages/notFound/index.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    errorElement: <NotFoundPage />,
     children: [
       {
         path: "/",
@@ -40,6 +43,10 @@ const router = createBrowserRouter([
           {
             path: "redefinePassword/:hash",
             element: <RedefinirSenhaPage />,
+          },
+          {
+            path: "cupom",
+            element: <CupomPage />,
           },
         ],
       },

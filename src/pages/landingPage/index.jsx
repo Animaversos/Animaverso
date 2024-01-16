@@ -49,7 +49,7 @@ export default function LandingPage() {
               Encontrar Pets
             </Link>
             <Link
-              to={"/pet"}
+              to={"/authentication/cupom"}
               style={{ textDecoration: "none", color: "black" }}
             >
               Cupom

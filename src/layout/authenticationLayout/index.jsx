@@ -2,8 +2,9 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Footer from "../../components/footer";
 import LogoSemNome from "../../assets/logo-sem-nome.png";
+import { node } from "prop-types";
 
-const AuthenticationLayout = () => {
+const AuthenticationLayout = ({ children }) => {
   const navigate = useNavigate();
 
   return (
@@ -66,12 +67,16 @@ const AuthenticationLayout = () => {
             justifyContent: "center",
           }}
         >
-          <Outlet />
+          {children || <Outlet />}
         </Box>
       </Container>
       <Footer />
     </Box>
   );
+};
+
+AuthenticationLayout.propTypes = {
+  children: node,
 };
 
 export default AuthenticationLayout;
