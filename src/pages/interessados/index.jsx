@@ -23,7 +23,7 @@ export default function InteressadosPage() {
       >
         <Box>
           <Typography variant="h5" fontWeight={"bold"}>
-            Interessados
+            Meus interesses
           </Typography>
           <Typography variant="p">
             Aqui voce podera ver os pets que você teve interesse.
