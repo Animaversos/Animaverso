@@ -5,7 +5,7 @@ const realizaLogin = async (body) => {
     throw new Error("Corpo da requisição não informado");
   }
 
-  return await api.post("/auth/login", body);
+  return await api.post("/auth/login/", body);
 };
 
 const relembraSenha = async (body) => {
