@@ -3,6 +3,9 @@ import useUserStorage from "../hooks/userUserStore";
 import { enqueueSnackbar } from "notistack";
 const api = axios.create({
   baseURL: "https://api.animaverso.com.br/api",
+  headers: {
+    Origin: "https://animaverso.com.br",
+  },
 });
 
 // Adiciona um interceptor antes de cada requisição
