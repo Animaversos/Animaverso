@@ -33,7 +33,7 @@ export default function EnderecoPage() {
     queryFn: async () => {
       if (user.usuario?.id) {
         const { data } = await api.get(
-          `https://api.animaverso.com.br/api/enderecos/usuario/${user.usuario?.id}`
+          `https://api-animaverso.onrender.com/api/enderecos/usuario/${user.usuario?.id}`
         );
         Object.keys(data).forEach((key) => {
           setValue(key, data[key]);
