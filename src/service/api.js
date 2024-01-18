@@ -1,7 +1,7 @@
 import axios from "axios";
 import useUserStorage from "../hooks/userUserStore";
 import { enqueueSnackbar } from "notistack";
-const api = axios.create({ baseURL: "http://localhost:3000/api" });
+const api = axios.create({ baseURL: "https://api.animaverso.com.br/api" });
 
 // Adiciona um interceptor antes de cada requisição
 api.interceptors.request.use(

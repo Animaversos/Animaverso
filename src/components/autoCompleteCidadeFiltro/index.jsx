@@ -13,7 +13,7 @@ const AutocompleteCidadeFiltro = ({ setValue }) => {
   const fetchData = async (searchTerm) => {
     try {
       const { data } = await api.get(
-        `http://localhost:3000/api/enderecos/cidades?nome=${searchTerm}`
+        `https://api.animaverso.com.br/api/enderecos/cidades?nome=${searchTerm}`
       );
       setTimer(null);
       return data;

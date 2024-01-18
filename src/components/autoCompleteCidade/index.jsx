@@ -18,7 +18,7 @@ const AutocompleteCidade = ({
     queryFn: async () => {
       if (estado) {
         const { data } = await api.get(
-          `http://localhost:3000/api/enderecos/cidades/${estado.uf}`
+          `https://api.animaverso.com.br/api/enderecos/cidades/${estado.uf}`
         );
         if (defaultValue && defaultValueEstado?.id === estado?.id) {
           setCidade(defaultValue);
