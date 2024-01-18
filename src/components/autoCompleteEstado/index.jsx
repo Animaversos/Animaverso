@@ -9,7 +9,7 @@ const AutocompleteEstado = ({ register, setValue, defaultValue }) => {
   const [options, setOptions] = useState([]);
   const handleInputChange = async () => {
     const { data } = await api.get(
-      `https://api.animaverso.com.br/api/enderecos/estados`
+      `https://api-animaverso.onrender.com/api/enderecos/estados`
     );
     setOptions(data);
     return data;
