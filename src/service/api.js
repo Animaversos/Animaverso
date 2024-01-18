@@ -1,7 +1,14 @@
 import axios from "axios";
 import useUserStorage from "../hooks/userUserStore";
 import { enqueueSnackbar } from "notistack";
-const api = axios.create({ baseURL: "https://api.animaverso.com.br/api" });
+const api = axios.create({
+  baseURL: "https://api.animaverso.com.br/api",
+  withCredentials: true, // se estiver usando credenciais (cookies, tokens, etc.)
+  headers: {
+    "Content-Type": "application/json",
+    Origin: "https://animaverso.com.br", // substitua pelo URL de sua aplicação React
+  },
+});
 
 // Adiciona um interceptor antes de cada requisição
 api.interceptors.request.use(
